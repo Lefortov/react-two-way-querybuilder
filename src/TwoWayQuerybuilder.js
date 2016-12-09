@@ -12,9 +12,13 @@ class TwoWayQuerybuilder extends React.Component{
 		this.state = {
 			data: {
 				combinator: 'And',
-				rules: [{field:'firstName', operator:'=', value:'Ivan'}]
-			}
-		}
+				rules: [{
+					field:this.props.fields[0],
+					operator:this.props.config.operators[0],
+					value:'Ivan'}]
+			},
+			nestIndex: 0
+		};
 		this.addRule = this.addRule.bind(this);
 		this.addCondition = this.addCondition.bind(this);
 	}
@@ -36,19 +40,26 @@ class TwoWayQuerybuilder extends React.Component{
 	}
 
 	render () {
-		return <div>
+		return (<div>
 			<select>
 				{this.props.config.combinators.map((combinator, index)=>{
-					return <option value={combinator.combinator} key={index}>{combinator.label}</option>
+					return <option value={combinator.combinator} key={index}>{combinator.label}</option>;
 				})}
 			</select>
 			<button onClick={this.addCondition}>{this.props.buttonsText.addGroup}</button>
 			<button onClick={this.addRule}>{this.props.buttonsText.addRule}</button>
 			{this.state.data.rules.map((rule, index) => {
-				if (rule.field) return <Rule key={index}/>
-				return <Condition key={index}/>
+				if (rule.field){ 
+					return <Rule key={index} fields={this.props.fields} operators={this.props.config.operators}/>;
+				}
+				else{
+					return <Condition key={index} config={this.props.config} 
+					buttonsText={this.props.buttonsText} fields={this.props.fields} nestIndex={this.state.nestIndex + 1}
+					data={this.state.data}/>;
+				}
 			})}
-		</div>;
+			<p>{JSON.stringify(this.state.data)}</p>
+		</div>);
 	}
 }
 
@@ -58,23 +69,23 @@ function buildDefaultConfig(config) {
 	config.query = config.query ? config.query : '()';
 	config.operators = config.operators ? config.operators : 
 	[
-		{operator: 'IS NULL', label: 'Null'},
-		{operator: 'IS NOT NULL', label: 'Not Null'},
-		{operator: 'IN', label: 'In'},
-		{operator: 'NOT IN', label: 'Not In'},
 		{operator: '=', label: '='},
 		{operator: '<>', label: '<>'},
 		{operator: '<', label: '<'},
 		{operator: '>', label: '>'},
 		{operator: '>=', label: '>='},
-		{operator: '<=', label: '<='}
+		{operator: '<=', label: '<='},
+		{operator: 'IS NULL', label: 'Null'},
+		{operator: 'IS NOT NULL', label: 'Not Null'},
+		{operator: 'IN', label: 'In'},
+		{operator: 'NOT IN', label: 'Not In'}
 	];
 	config.combinators = config.combinators ? config.combinators :
 	[
 		{combinator:'AND', label:'And'},
 		{combinator:'OR', label:'Or'},
 		{combinator:'Not', label:'Not'}
-	]
+	];
 	config.animation = config.animation ? config.animation : 'none';
 }
 
@@ -86,14 +97,14 @@ function fillDefaultButtonsText(buttonsText){
 }
 
 TwoWayQuerybuilder.propTypes = {
+	buttonsText : React.PropTypes.object,	
 	config : React.PropTypes.object.isRequired,
-	onChange : React.PropTypes.func.isRequired,
-	buttonsText : React.PropTypes.object,
-	fields : React.PropTypes.array.isRequired
-}
+	fields : React.PropTypes.array.isRequired,	
+	onChange : React.PropTypes.func.isRequired
+};
 
 TwoWayQuerybuilder.defaultProps = {
 	buttonsText: {}
-}
+};
 
 export default TwoWayQuerybuilder;

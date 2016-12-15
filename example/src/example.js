@@ -7,7 +7,7 @@ var fields = [
 	{name: 'firstName', label:'First Name', input: {type:'text'}},
 	{name: 'lastName', label:'Last Name', input: {type:'text'}},
 	{name: 'age', label:'Age', input: {type:'text'}},
-	{name: 'birthDate', label:'Age', input: {type:'text'}}
+	{name: 'birthDate', label:'Birth date', input: {type:'text'}}
 ];
 
 class App extends React.Component{
@@ -23,7 +23,7 @@ class App extends React.Component{
 			<div>
 				<TwoWayQuerybuilder config={config} fields={fields} onChange={this.handleChange}/>
 			</div>
-		)
+		);
 	}
 }
 

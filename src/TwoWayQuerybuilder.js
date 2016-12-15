@@ -1,70 +1,34 @@
 var React = require('react');
 var Rule = require('./Rule');
 var Condition = require('./Condition');
-
+var TreeHelper = require('./TreeHelper');
 
 class TwoWayQuerybuilder extends React.Component{
 	constructor(props){
 		super(props);
 		buildDefaultConfig(props.config);
 		fillDefaultButtonsText(props.buttonsText);
-		console.log('default config', props.config);
 		this.state = {
 			data: {
-				combinator: 'And',
-				rules: [{
-					field:this.props.fields[0],
-					operator:this.props.config.operators[0],
-					value:'Ivan'}]
-			},
-			nestIndex: 0
+				combinator: this.props.config.combinators[0].combinator,
+				nodeName: '1',
+				rules: [],
+			}
 		};
-		this.addRule = this.addRule.bind(this);
-		this.addCondition = this.addCondition.bind(this);
-	}
-
-	addRule(){
-		console.log('rule added');
-		let data = this.state.data;
-		data.rules.push({field:'lastName', operator:'=', value:'Saloed'});
-		this.setState({data:data});
-		console.log('state', this.state);
-	}
-
-	addCondition(){
-		console.log('condition added');
-		let data = this.state.data;
-		data.rules.push({combinator:'AND', rules:[]});
-		this.setState({data:data});
-		console.log('state', this.state);		
 	}
 
 	render () {
 		return (<div>
-			<select>
-				{this.props.config.combinators.map((combinator, index)=>{
-					return <option value={combinator.combinator} key={index}>{combinator.label}</option>;
-				})}
-			</select>
-			<button onClick={this.addCondition}>{this.props.buttonsText.addGroup}</button>
-			<button onClick={this.addRule}>{this.props.buttonsText.addRule}</button>
-			{this.state.data.rules.map((rule, index) => {
-				if (rule.field){ 
-					return <Rule key={index} fields={this.props.fields} operators={this.props.config.operators}/>;
-				}
-				else{
-					return <Condition key={index} config={this.props.config} 
-					buttonsText={this.props.buttonsText} fields={this.props.fields} nestIndex={this.state.nestIndex + 1}
-					data={this.state.data}/>;
-				}
-			})}
-			<p>{JSON.stringify(this.state.data)}</p>
+			<Condition config={this.props.config} 
+					buttonsText={this.props.buttonsText}
+					fields={this.props.fields}
+					nodeName = '1'
+					data={this.state.data}/>
 		</div>);
 	}
 }
 
 function buildDefaultConfig(config) {
-	console.log('buildDefaultConfig');
 	config.type = config.type ? config.type : 'SQL';
 	config.query = config.query ? config.query : '()';
 	config.operators = config.operators ? config.operators : 

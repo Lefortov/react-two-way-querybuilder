@@ -1,50 +1,48 @@
-class TreeHelper{
+export default class TreeHelper{
 	constructor(data){
 		this.data = data;
 	}
 
-	static insertNodeByIndex(node, index){
-		var gotNode = getNode(this.data, index, 0);
-		gotNode.push(node);
+	generateNodeName(prevNodeName, childNumber){
+		return `${prevNodeName}/${childNumber}`;
+	}
+
+	removeNodeByName(index){
+		this.removeNode(this.data, index, 0);
 		return this.data;
 	}
 
-	static removeNodeByIndex(index){
-		removeNode(this.data, index, 0);
-		return this.data;
+	getNodeByName(name){
+		return this.getNode(this.data, name);
 	}
 
-	static getNodeByIndex(index){
-		return getNode(this.data, index, 0);
-	}
-
-	removeNode(data, index, currIndex){
+	removeNode(data, name){
 		for(var property in data){
 			if (data.hasOwnProperty(property)){
 				if (property === 'rules'){
-					currIndex++;
-					for (var i =0; i<data.rules.length;i++){
-						if (data.rules[i].combinator){
-							delete data.rules[i].combinator;
+					for (var i =0; i<data.rules.length; i++){
+						if (data.rules[i].combinator && data.rules[i].nodeName === name){
+							delete data.rules[i];
 						}
+						this.removeNode(data.rules[i].combinator, name);
 					}
 				}
 			}
-		}		
+		}
 	}
 
-	getNode(data, index, currIndex){
-		if (index === currIndex){
-			return data.rules;
+	getNode(data, name){
+		if (name === '1'){
+			return data;
 		}
 		for(var property in data){
 			if (data.hasOwnProperty(property)){
 				if (property === 'rules'){
-					currIndex++;
 					for (var i =0; i<data.rules.length;i++){
-						if (data.rules[i].combinator){
-							getNode(data.rules[i].combinator, index, currIndex);
+						if (data.rules[i].combinator && data.rules[i].nodeName === name){
+							return data.rules[i];
 						}
+						this.getNode(data.rules[i].combinator, name);
 					}
 				}
 			}

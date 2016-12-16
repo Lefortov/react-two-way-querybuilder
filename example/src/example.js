@@ -4,10 +4,14 @@ var TwoWayQuerybuilder = require('react-two-way-querybuilder');
 
 var config = {};
 var fields = [
-	{name: 'firstName', label:'First Name', input: {type:'text'}},
-	{name: 'lastName', label:'Last Name', input: {type:'text'}},
-	{name: 'age', label:'Age', input: {type:'text'}},
-	{name: 'birthDate', label:'Birth date', input: {type:'text'}}
+	{name: 'firstName', operators: 'all', label:'First Name', input: {type:'text'}},
+	{name: 'lastName', operators: 'all', label:'Last Name', input: {type:'text'}},
+	{name: 'age', operators: 'all', label:'Age', input: {type:'select',
+	 options: [
+		{value: '11', name: 'eleven'},
+		{value: '12', name: 'twelve'}
+	]}},
+	{name: 'birthDate', operators: 'all', label:'Birth date', input: {type:'text'}}
 ];
 
 class App extends React.Component{

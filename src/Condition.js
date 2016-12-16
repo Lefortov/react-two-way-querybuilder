@@ -6,30 +6,30 @@ class Condition extends React.Component{
 	constructor(props){
 		super(props);
 		this.treeHelper = new TreeHelper(this.props.data);
-		let node = this.treeHelper.getNodeByName(this.props.nodeName);
 		this.state = {
-			data: node,
 			childAmount: 0
 		};
 		this.addRule = this.addRule.bind(this);
 		this.addCondition = this.addCondition.bind(this);
+		this.OnDelete = this.OnDelete.bind(this);
 	}
 
 	addRule(){
-		let data = this.state.data;
+		let data = this.treeHelper.getNodeByName(this.props.nodeName);
 		let childAmount = this.state.childAmount+1;
 		let nodeName = this.treeHelper.generateNodeName(this.props.nodeName, childAmount);
 		data.rules.push(
 			{
 				field: this.props.fields[0].name,
 			 	operator: this.props.config.operators[0].operator,
-				value: 'Saloed'
+				value: 'Saloed',
+				nodeName: nodeName
 			});
 		this.setState({data: data, childAmount: childAmount});
 	}
 
 	addCondition(){
-		let data = this.state.data;
+		let data = this.treeHelper.getNodeByName(this.props.nodeName);
 		let childAmount = this.state.childAmount+1;
 		let nodeName = this.treeHelper.generateNodeName(this.props.nodeName, childAmount);
 		data.rules.push({
@@ -40,6 +40,9 @@ class Condition extends React.Component{
 		this.setState({data:data, childAmount: childAmount});		
 	}
 
+	OnDelete(){
+		console.log('clicked');
+	}
 
 	ComponentWillReceiveProps(){
 		let node = this.treeHelper.getNodeByName(this.props.nodeName);
@@ -55,12 +58,13 @@ class Condition extends React.Component{
 			</select>
 			<button onClick={this.addCondition}>{this.props.buttonsText.addGroup}</button>
 			<button onClick={this.addRule}>{this.props.buttonsText.addRule}</button>
-			{this.state.data.rules.map((rule, index) => {
+			{this.props.data.rules.map((rule, index) => {
 				if (rule.field){ 
 					return (<Rule key={index}
 					fields={this.props.fields}
 					operators={this.props.config.operators}
-					nodeName = {this.treeHelper.generateNodeName(this.props.nodeName, this.state.childAmount)}/>);
+					nodeName = {this.treeHelper.generateNodeName(this.props.nodeName, this.state.childAmount)}
+					data = {this.props.data}/>);
 				}
 				else {
 					return (<Condition key={index}
@@ -68,10 +72,11 @@ class Condition extends React.Component{
 					buttonsText={this.props.buttonsText}
 					fields={this.props.fields}
 					nodeName = {this.treeHelper.generateNodeName(this.props.nodeName, this.state.childAmount)}
-					data={this.state.data}/>);
+					data={this.props.data}/>);
 				}
 			})}
-		</div>);;
+			<button onClick={this.OnDelete}>X</button>
+		</div>);
 	}
 }
 

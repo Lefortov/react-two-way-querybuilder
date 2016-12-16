@@ -21,10 +21,13 @@ export default class TreeHelper{
 			if (data.hasOwnProperty(property)){
 				if (property === 'rules'){
 					for (var i =0; i<data.rules.length; i++){
-						if (data.rules[i].combinator && data.rules[i].nodeName === name){
+						if (data.rules[i].nodeName === name){
 							delete data.rules[i];
+							return;
 						}
-						this.removeNode(data.rules[i].combinator, name);
+						if (data.rules[i].combinator){
+							this.removeNode(data.rules[i], name);							
+						}
 					}
 				}
 			}
@@ -39,10 +42,12 @@ export default class TreeHelper{
 			if (data.hasOwnProperty(property)){
 				if (property === 'rules'){
 					for (var i =0; i<data.rules.length;i++){
-						if (data.rules[i].combinator && data.rules[i].nodeName === name){
+						if (data.rules[i].nodeName === name){
 							return data.rules[i];
 						}
-						this.getNode(data.rules[i].combinator, name);
+						if(data.rules[i].combinator){
+							this.getNode(data.rules[i].combinator, name);							
+						}
 					}
 				}
 			}

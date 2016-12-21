@@ -76,10 +76,13 @@ class Condition extends React.Component{
 			</select>
 			<button onClick={this.addCondition}>{this.props.buttonsText.addGroup}</button>
 			<button onClick={this.addRule}>{this.props.buttonsText.addRule}</button>
-			<button onClick={() => this.handleDelete(this.props.nodeName)}>X</button>
+			{this.props.nodeName !== '1' ? 
+				<button onClick={() => this.handleDelete(this.props.nodeName)}>{this.props.buttonsText.delete}</button>
+				: null}
 			{this.state.data.rules.map((rule, index) => {
 				if (rule.field){ 
 					return (<Rule key={index}
+					buttonsText={this.props.buttonsText}
 					fields={this.props.fields}
 					operators={this.props.config.operators}
 					nodeName = {rule.nodeName}

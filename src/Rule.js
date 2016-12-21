@@ -102,13 +102,14 @@ class Rule extends React.Component{
 					)}
 				</select>
 				{this.getInputTag(this.state.currField.input.type)}
-				<button onClick={this.handleDelete}>X</button>
+				<button onClick={this.handleDelete}>{this.props.buttonsText.delete}</button>
 			</div>
 		);
 	}
 }
 
 Rule.propTypes = {
+	buttonsText : React.PropTypes.object,
 	data: React.PropTypes.object.isRequired,
 	fields : React.PropTypes.array.isRequired,
 	nodeName: React.PropTypes.string.isRequired,

@@ -6,18 +6,24 @@ class Condition extends React.Component{
 	constructor(props){
 		super(props);
 		this.treeHelper = new TreeHelper(this.props.data);
+		console.log('node name', this.props.nodeName);
+		let node = this.treeHelper.getNodeByName(this.props.nodeName);
+		console.log('node', node);
 		this.state = {
-			childAmount: 0
+			childAmount: 0,
+			data: node
 		};
 		this.addRule = this.addRule.bind(this);
 		this.addCondition = this.addCondition.bind(this);
-		this.OnDelete = this.OnDelete.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
+		this.handleChildUpdate = this.handleChildUpdate.bind(this);
 	}
 
 	addRule(){
 		let data = this.treeHelper.getNodeByName(this.props.nodeName);
 		let childAmount = this.state.childAmount+1;
 		let nodeName = this.treeHelper.generateNodeName(this.props.nodeName, childAmount);
+		console.log('node name 12345', this.props.nodeName);
 		data.rules.push(
 			{
 				field: this.props.fields[0].name,
@@ -26,9 +32,11 @@ class Condition extends React.Component{
 				nodeName: nodeName
 			});
 		this.setState({data: data, childAmount: childAmount});
+		console.log('data', data);
 	}
 
 	addCondition(){
+		console.log('node name 12345', this.props.nodeName);
 		let data = this.treeHelper.getNodeByName(this.props.nodeName);
 		let childAmount = this.state.childAmount+1;
 		let nodeName = this.treeHelper.generateNodeName(this.props.nodeName, childAmount);
@@ -40,12 +48,22 @@ class Condition extends React.Component{
 		this.setState({data:data, childAmount: childAmount});		
 	}
 
-	OnDelete(){
-		console.log('clicked');
+	handleDelete(nodeName){
+		console.log('node name 123', nodeName);
+		this.treeHelper.removeNodeByName(nodeName); 
+		this.props.onChange();
+	}
+
+	handleChildUpdate(){
+		let node = this.treeHelper.getNodeByName(this.props.nodeName);
+		console.log('node node node', node);
+		this.setState({data:node});
+		console.log('updated');
 	}
 
 	ComponentWillReceiveProps(){
 		let node = this.treeHelper.getNodeByName(this.props.nodeName);
+		console.log('node', node);
 		this.setState({data:node});	
 	}
 
@@ -58,24 +76,26 @@ class Condition extends React.Component{
 			</select>
 			<button onClick={this.addCondition}>{this.props.buttonsText.addGroup}</button>
 			<button onClick={this.addRule}>{this.props.buttonsText.addRule}</button>
-			{this.props.data.rules.map((rule, index) => {
+			<button onClick={() => this.handleDelete(this.props.nodeName)}>X</button>
+			{this.state.data.rules.map((rule, index) => {
 				if (rule.field){ 
 					return (<Rule key={index}
 					fields={this.props.fields}
 					operators={this.props.config.operators}
-					nodeName = {this.treeHelper.generateNodeName(this.props.nodeName, this.state.childAmount)}
-					data = {this.props.data}/>);
+					nodeName = {rule.nodeName}
+					data = {this.props.data}
+					onChange={this.handleChildUpdate}/>);
 				}
 				else {
 					return (<Condition key={index}
 					config={this.props.config} 
 					buttonsText={this.props.buttonsText}
 					fields={this.props.fields}
-					nodeName = {this.treeHelper.generateNodeName(this.props.nodeName, this.state.childAmount)}
-					data={this.props.data}/>);
+					nodeName = {rule.nodeName}
+					data={this.props.data}
+					onChange={this.handleChildUpdate}/>);
 				}
 			})}
-			<button onClick={this.OnDelete}>X</button>
 		</div>);
 	}
 }
@@ -86,6 +106,7 @@ Condition.propTypes = {
 	data: React.PropTypes.object.isRequired,	
 	fields : React.PropTypes.array.isRequired,
 	nodeName: React.PropTypes.string.isRequired,
+	onChange: React.PropTypes.func
 };
 
 export default Condition;

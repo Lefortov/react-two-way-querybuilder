@@ -10,10 +10,12 @@ class Rule extends React.Component{
 		this.onOperatorChanged = this.onOperatorChanged.bind(this);
 		this.onInputChanged = this.onInputChanged.bind(this);
 		this.getInputTag = this.getInputTag.bind(this);
+		this.handleDelete = this.handleDelete.bind(this);
 		this.treeHelper = new TreeHelper(this.props.data);
 		this.state = {
 			currField: this.generateRuleObject(this.props.fields[0])
 		};
+		console.log('node name', this.props.nodeName);
 		console.log('state', this.state);
 	}
 
@@ -45,6 +47,11 @@ class Rule extends React.Component{
 			}
 		}
 		rule.operators = ruleOperators;
+	}
+
+	handleDelete(){
+		this.treeHelper.removeNodeByName(this.props.nodeName); 
+		this.props.onChange();
 	}
 
 	onFieldChanged(event){
@@ -95,6 +102,7 @@ class Rule extends React.Component{
 					)}
 				</select>
 				{this.getInputTag(this.state.currField.input.type)}
+				<button onClick={this.handleDelete}>X</button>
 			</div>
 		);
 	}
@@ -104,6 +112,7 @@ Rule.propTypes = {
 	data: React.PropTypes.object.isRequired,
 	fields : React.PropTypes.array.isRequired,
 	nodeName: React.PropTypes.string.isRequired,
+	onChange: React.PropTypes.func,
 	operators: React.PropTypes.array.isRequired
 };
 

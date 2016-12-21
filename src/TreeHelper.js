@@ -22,10 +22,9 @@ export default class TreeHelper{
 				if (property === 'rules'){
 					for (var i =0; i<data.rules.length; i++){
 						if (data.rules[i].nodeName === name){
-							delete data.rules[i];
+							data.rules.splice(i, 1);
 							return;
-						}
-						if (data.rules[i].combinator){
+						} else if (data.rules[i].combinator){
 							this.removeNode(data.rules[i], name);							
 						}
 					}
@@ -34,21 +33,22 @@ export default class TreeHelper{
 		}
 	}
 
-	getNode(data, name){
+	getNode(treeData, name){
 		if (name === '1'){
-			return data;
+			return treeData;
 		}
-		for(var property in data){
-			if (data.hasOwnProperty(property)){
+		for(var property in treeData){
+			if (treeData.hasOwnProperty(property)){
 				if (property === 'rules'){
-					for (var i =0; i<data.rules.length;i++){
-						if (data.rules[i].nodeName === name){
-							return data.rules[i];
-						}
-						if(data.rules[i].combinator){
-							this.getNode(data.rules[i].combinator, name);							
+					var node = null;
+					for (var i =0; i < treeData.rules.length; i++){
+						if (treeData.rules[i].nodeName === name){
+							node = treeData.rules[i];
+						} else if(treeData.rules[i].combinator){
+							node = this.getNode(treeData.rules[i], name);							
 						}
 					}
+					return node;
 				}
 			}
 		}

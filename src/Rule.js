@@ -15,8 +15,6 @@ class Rule extends React.Component{
 		this.state = {
 			currField: this.generateRuleObject(this.props.fields[0])
 		};
-		console.log('node name', this.props.nodeName);
-		console.log('state', this.state);
 	}
 
 	getFieldByName(name) {
@@ -32,7 +30,6 @@ class Rule extends React.Component{
 		let rule = {};
 		rule.input = field.input;
 		let node = this.treeHelper.getNodeByName(this.props.nodeName);
-		console.log('node', node);
 		rule.input.value = node.value;	
 		if(!field.operators || typeof(field.operators) === 'string'){
 			rule.operators = this.props.operators;

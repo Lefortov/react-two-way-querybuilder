@@ -71,35 +71,35 @@ class Rule extends React.Component{
 
 	getInputTag(inputType){
 		switch(inputType){
-			case 'textarea': return (<textarea onChange={this.onInputChanged}>
+			case 'textarea': return (<textarea className="form-control" onChange={this.onInputChanged}>
 			{this.state.currField.input.value ? this.state.currField.input.value : ''}
 			</textarea>);
-			case 'select': return (<select onChange={this.onInputChanged}>
+			case 'select': return (<select className="form-control" onChange={this.onInputChanged}>
 				{this.state.currField.input.options.map((option, index) => 
 					<option value={option.value} key={index}>{option.name}</option>
 				)}
 			</select>);
 			default: return (<input type = {this.state.currField.input.type}
 				 value = {this.state.currField.input.value ? this.state.currField.input.value : ''}
-				 onChange={this.onInputChanged}/>);
+				 onChange={this.onInputChanged} className="form-control"/>);
 		}
 	}
 
 	render () {
 		return(
-			<div>
-				<select onChange={this.onFieldChanged}>
+			<div className="rule">
+				<select className="form-control" onChange={this.onFieldChanged}>
 					{this.props.fields.map((field, index) => 
 						<option value={field.name} key={index}>{field.label}</option>
 					)}
 				</select>
-				<select onChange={this.onOperatorChanged}>
+				<select className="form-control" onChange={this.onOperatorChanged}>
 					{this.state.currField.operators.map((operator, index) =>
 						<option value={operator.operator} key={index}>{operator.label}</option>
 					)}
 				</select>
 				{this.getInputTag(this.state.currField.input.type)}
-				<button onClick={this.handleDelete}>{this.props.buttonsText.delete}</button>
+				<button className="button button-delete" onClick={this.handleDelete}>{this.props.buttonsText.delete}</button>
 			</div>
 		);
 	}

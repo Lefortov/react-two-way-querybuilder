@@ -1,6 +1,7 @@
 var React = require('react');
 var TreeHelper = require('./TreeHelper');
 var Rule = require('./Rule');
+// var Styles = require('./Styles.js');
 
 class Condition extends React.Component{
 	constructor(props){
@@ -59,16 +60,16 @@ class Condition extends React.Component{
 	}
 
 	render () {
-		return (<div>
-			<select>
+		return (<div className="condition">
+			<select className="form-control">
 				{this.props.config.combinators.map((combinator, index)=>{
 					return <option value={combinator.combinator} key={index}>{combinator.label}</option>;
 				})}
 			</select>
-			<button onClick={this.addCondition}>{this.props.buttonsText.addGroup}</button>
-			<button onClick={this.addRule}>{this.props.buttonsText.addRule}</button>
+			<button className="button button-primary" onClick={this.addCondition}>{this.props.buttonsText.addGroup}</button>
+			<button className="button button-primary" onClick={this.addRule}>{this.props.buttonsText.addRule}</button>
 			{this.props.nodeName !== '1' ? 
-				<button onClick={() => this.handleDelete(this.props.nodeName)}>{this.props.buttonsText.delete}</button>
+				<button onClick={() => this.handleDelete(this.props.nodeName)} className="button button-delete">{this.props.buttonsText.delete}</button>
 				: null}
 			{this.state.data.rules.map((rule, index) => {
 				if (rule.field){ 

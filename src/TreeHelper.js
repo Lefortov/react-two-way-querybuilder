@@ -44,7 +44,7 @@ export default class TreeHelper{
 					for (var i =0; i < treeData.rules.length; i++){
 						if (treeData.rules[i].nodeName === name){
 							node = treeData.rules[i];
-						} else if(treeData.rules[i].combinator){
+						} else if(treeData.rules[i].combinator && node === null){
 							node = this.getNode(treeData.rules[i], name);							
 						}
 					}

@@ -12,9 +12,11 @@ class Rule extends React.Component{
 		this.getInputTag = this.getInputTag.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.treeHelper = new TreeHelper(this.props.data);
+		this.node = this.treeHelper.getNodeByName(this.props.nodeName);
 		this.state = {
-			currField: this.generateRuleObject(this.props.fields[0])
+			currField: this.generateRuleObject(this.props.fields[0], this.node)
 		};
+		console.log('test');
 	}
 
 	getFieldByName(name) {
@@ -26,10 +28,10 @@ class Rule extends React.Component{
 		return null;
 	}
 
-	generateRuleObject(field){
+	generateRuleObject(field, node){
 		let rule = {};
 		rule.input = field.input;
-		let node = this.treeHelper.getNodeByName(this.props.nodeName);
+		node = node ? node : this.treeHelper.getNodeByName(this.props.nodeName);
 		rule.input.value = node.value;	
 		if(!field.operators || typeof(field.operators) === 'string'){
 			rule.operators = this.props.operators;
@@ -44,35 +46,41 @@ class Rule extends React.Component{
 			}
 		}
 		rule.operators = ruleOperators;
+		return rule;
 	}
 
 	handleDelete(){
+		console.log(this.props.nodeName);
 		this.treeHelper.removeNodeByName(this.props.nodeName); 
 		this.props.onChange();
 	}
 
 	onFieldChanged(event){
+		this.node[field] = event.target.value;
 		let field = this.getFieldByName(event.target.value);
-		let rule = this.generateRuleObject(field);
+		let rule = this.generateRuleObject(field, this.node);
 		this.setState({currField: rule});
-		let node = this.treeHelper.getNodeByName(this.props.nodeName);
-		node[field] = event.target.value;
 	}
 
 	onOperatorChanged(event){
-		let node = this.treeHelper.getNodeByName(this.props.nodeName);
-		node.operator = event.target.value;
+		this.node.operator = event.target.value;
+		let field = this.getFieldByName(this.node.field);
+		let rule = this.generateRuleObject(field, this.node);
+		this.setState({currField: rule});
 	}
 
 	onInputChanged(event){
-		let node = this.treeHelper.getNodeByName(this.props.nodeName);
-		node.value = event.target.value;
+		console.log(this.props.nodeName);	
+		this.node.value = event.target.value;
+		let field = this.getFieldByName(this.node.field);
+		let rule = this.generateRuleObject(field, this.node);
+		this.setState({currField: rule});
 	}
 
 	getInputTag(inputType){
 		switch(inputType){
 			case 'textarea': return (<textarea className="form-control" onChange={this.onInputChanged}>
-			{this.state.currField.input.value ? this.state.currField.input.value : ''}
+			{this.node.value ? this.node.value : ''}
 			</textarea>);
 			case 'select': return (<select className="form-control" onChange={this.onInputChanged}>
 				{this.state.currField.input.options.map((option, index) => 
@@ -80,7 +88,7 @@ class Rule extends React.Component{
 				)}
 			</select>);
 			default: return (<input type = {this.state.currField.input.type}
-				 value = {this.state.currField.input.value ? this.state.currField.input.value : ''}
+				 value = {this.node.value}
 				 onChange={this.onInputChanged} className="form-control"/>);
 		}
 	}
@@ -100,6 +108,7 @@ class Rule extends React.Component{
 				</select>
 				{this.getInputTag(this.state.currField.input.type)}
 				<button className="button button-delete" onClick={this.handleDelete}>{this.props.buttonsText.delete}</button>
+				<p>{JSON.stringify(this.node)}</p>
 			</div>
 		);
 	}

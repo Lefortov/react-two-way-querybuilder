@@ -16,6 +16,7 @@ class Condition extends React.Component{
 		this.addCondition = this.addCondition.bind(this);
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleChildUpdate = this.handleChildUpdate.bind(this);
+		this.combinatorChange = this.combinatorChange.bind(this);
 	}
 
 	addRule(){
@@ -51,17 +52,25 @@ class Condition extends React.Component{
 
 	handleChildUpdate(){
 		let node = this.treeHelper.getNodeByName(this.props.nodeName);
+		console.log('node update', node);		
 		this.setState({data:node});
+		console.log('data', this.state.data);
+	}
+
+	combinatorChange(event){
+		let node = this.treeHelper.getNodeByName(this.props.nodeName);
+		node.combinator = event.target.value;
 	}
 
 	ComponentWillReceiveProps(){
+		console.log('will receive props');
 		let node = this.treeHelper.getNodeByName(this.props.nodeName);
-		this.setState({data:node});	
+		this.setState({data:node});
 	}
 
 	render () {
 		return (<div className="condition">
-			<select className="form-control">
+			<select className="form-control" onChange={this.combinatorChange}>
 				{this.props.config.combinators.map((combinator, index)=>{
 					return <option value={combinator.combinator} key={index}>{combinator.label}</option>;
 				})}

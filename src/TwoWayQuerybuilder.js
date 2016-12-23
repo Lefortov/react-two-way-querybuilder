@@ -24,6 +24,7 @@ class TwoWayQuerybuilder extends React.Component{
 					fields={this.props.fields}
 					nodeName = '1'
 					data={this.state.data}/>
+					<p></p>
 		</div>);
 	}
 }
@@ -48,7 +49,7 @@ function buildDefaultConfig(config) {
 	[
 		{combinator:'AND', label:'And'},
 		{combinator:'OR', label:'Or'},
-		{combinator:'Not', label:'Not'}
+		{combinator:'NOT', label:'Not'}
 	];
 	config.animation = config.animation ? config.animation : 'none';
 }

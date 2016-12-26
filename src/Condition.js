@@ -1,7 +1,6 @@
 var React = require('react');
 var TreeHelper = require('./TreeHelper');
 var Rule = require('./Rule');
-// var Styles = require('./Styles.js');
 
 class Condition extends React.Component{
 	constructor(props){
@@ -27,10 +26,11 @@ class Condition extends React.Component{
 			{
 				field: this.props.fields[0].name,
 			 	operator: this.props.config.operators[0].operator,
-				value: 'Saloed',
+				value: '',
 				nodeName: nodeName
 			});
 		this.setState({data: data, childAmount: childAmount});
+		this.props.onChange(this.props.data);
 	}
 
 	addCondition(){
@@ -42,24 +42,25 @@ class Condition extends React.Component{
 			nodeName: nodeName,
 			rules: []
 		});
-		this.setState({data:data, childAmount: childAmount});		
+		this.setState({data:data, childAmount: childAmount});	
+		this.props.onChange(this.props.data);	
 	}
 
 	handleDelete(nodeName){
 		this.treeHelper.removeNodeByName(nodeName); 
-		this.props.onChange();
+		this.props.onChange(this.props.data);
 	}
 
 	handleChildUpdate(){
-		let node = this.treeHelper.getNodeByName(this.props.nodeName);
-		console.log('node update', node);		
+		let node = this.treeHelper.getNodeByName(this.props.nodeName);		
 		this.setState({data:node});
-		console.log('data', this.state.data);
+		this.props.onChange(this.props.data);
 	}
 
 	combinatorChange(event){
 		let node = this.treeHelper.getNodeByName(this.props.nodeName);
 		node.combinator = event.target.value;
+		this.props.onChange(this.props.data);		
 	}
 
 	render () {

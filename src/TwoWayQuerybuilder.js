@@ -2,6 +2,7 @@ var React = require('react');
 var Rule = require('./Rule');
 var Condition = require('./Condition');
 var TreeHelper = require('./TreeHelper');
+var QueryParser = require('./QueryParser');
 
 class TwoWayQuerybuilder extends React.Component{
 	constructor(props){
@@ -13,8 +14,21 @@ class TwoWayQuerybuilder extends React.Component{
 				combinator: this.props.config.combinators[0].combinator,
 				nodeName: '1',
 				rules: [],
-			}
+			},
+			query: null
 		};
+		this.handleChange = this.handleChange.bind(this);
+	}
+
+	handleChange(data){
+		let queryObj = {};
+		queryObj.data = data;
+		queryObj.query = QueryParser.ParseToQuery(data);
+		console.log('query obj', queryObj);
+		this.setState({query: queryObj.query});
+		if (this.props.onChange){
+			this.props.onChange(data);
+		}
 	}
 
 	render () {
@@ -23,8 +37,9 @@ class TwoWayQuerybuilder extends React.Component{
 					buttonsText={this.props.buttonsText}
 					fields={this.props.fields}
 					nodeName = '1'
-					data={this.state.data}/>
-					<p></p>
+					data={this.state.data}
+					onChange={this.handleChange}/>
+					<p>{this.state.query}</p>
 		</div>);
 	}
 }
@@ -65,7 +80,7 @@ TwoWayQuerybuilder.propTypes = {
 	buttonsText : React.PropTypes.object,	
 	config : React.PropTypes.object.isRequired,
 	fields : React.PropTypes.array.isRequired,	
-	onChange : React.PropTypes.func.isRequired
+	onChange : React.PropTypes.func
 };
 
 TwoWayQuerybuilder.defaultProps = {

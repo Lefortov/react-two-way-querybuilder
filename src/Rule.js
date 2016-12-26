@@ -58,6 +58,7 @@ class Rule extends React.Component{
 		let field = this.getFieldByName(event.target.value);
 		let rule = this.generateRuleObject(field, this.node);
 		this.setState({currField: rule});
+		this.props.onChange();
 	}
 
 	onOperatorChanged(event){
@@ -65,6 +66,7 @@ class Rule extends React.Component{
 		let field = this.getFieldByName(this.node.field);
 		let rule = this.generateRuleObject(field, this.node);
 		this.setState({currField: rule});
+		this.props.onChange();
 	}
 
 	onInputChanged(event){
@@ -72,6 +74,7 @@ class Rule extends React.Component{
 		let field = this.getFieldByName(this.node.field);
 		let rule = this.generateRuleObject(field, this.node);
 		this.setState({currField: rule});
+		this.props.onChange();
 	}
 
 	componentWillReceiveProps(nextProps){

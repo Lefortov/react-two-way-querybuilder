@@ -41,7 +41,7 @@ export default class TreeHelper{
 			if (treeData.hasOwnProperty(property)){
 				if (property === 'rules'){
 					var node = null;
-					for (var i =0; i < treeData.rules.length; i++){
+					for (var i = 0; i < treeData.rules.length; i++){
 						if (treeData.rules[i].nodeName === name){
 							node = treeData.rules[i];
 						} else if(treeData.rules[i].combinator && node === null){

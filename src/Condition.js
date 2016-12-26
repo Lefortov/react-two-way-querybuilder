@@ -62,12 +62,6 @@ class Condition extends React.Component{
 		node.combinator = event.target.value;
 	}
 
-	ComponentWillReceiveProps(){
-		console.log('will receive props');
-		let node = this.treeHelper.getNodeByName(this.props.nodeName);
-		this.setState({data:node});
-	}
-
 	render () {
 		return (<div className="condition">
 			<select className="form-control" onChange={this.combinatorChange}>

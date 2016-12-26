@@ -16,7 +16,6 @@ class Rule extends React.Component{
 		this.state = {
 			currField: this.generateRuleObject(this.props.fields[0], this.node)
 		};
-		console.log('test');
 	}
 
 	getFieldByName(name) {
@@ -50,7 +49,6 @@ class Rule extends React.Component{
 	}
 
 	handleDelete(){
-		console.log(this.props.nodeName);
 		this.treeHelper.removeNodeByName(this.props.nodeName); 
 		this.props.onChange();
 	}
@@ -70,11 +68,14 @@ class Rule extends React.Component{
 	}
 
 	onInputChanged(event){
-		console.log(this.props.nodeName);	
 		this.node.value = event.target.value;
 		let field = this.getFieldByName(this.node.field);
 		let rule = this.generateRuleObject(field, this.node);
 		this.setState({currField: rule});
+	}
+
+	componentWillReceiveProps(nextProps){
+		this.node = this.treeHelper.getNodeByName(nextProps.nodeName);
 	}
 
 	getInputTag(inputType){
@@ -108,7 +109,6 @@ class Rule extends React.Component{
 				</select>
 				{this.getInputTag(this.state.currField.input.type)}
 				<button className="button button-delete" onClick={this.handleDelete}>{this.props.buttonsText.delete}</button>
-				<p>{JSON.stringify(this.node)}</p>
 			</div>
 		);
 	}

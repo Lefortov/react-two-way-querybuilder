@@ -24,7 +24,6 @@ class App extends React.Component{
 	}
 
 	handleChange(data){
-		console.log('updated', data);
 		this.setState({data: data});
 	}
 

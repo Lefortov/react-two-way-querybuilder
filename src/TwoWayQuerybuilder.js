@@ -24,10 +24,9 @@ class TwoWayQuerybuilder extends React.Component{
 		let queryObj = {};
 		queryObj.data = data;
 		queryObj.query = QueryParser.ParseToQuery(data);
-		console.log('query obj', queryObj);
 		this.setState({query: queryObj.query});
 		if (this.props.onChange){
-			this.props.onChange(data);
+			this.props.onChange(queryObj);
 		}
 	}
 
@@ -39,7 +38,6 @@ class TwoWayQuerybuilder extends React.Component{
 					nodeName = '1'
 					data={this.state.data}
 					onChange={this.handleChange}/>
-					<p>{this.state.query}</p>
 		</div>);
 	}
 }

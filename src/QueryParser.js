@@ -16,12 +16,13 @@ export default class QueryParser{
 	}
 
 	static ParseToData(query, config){
-		if (query === '()'){
-			return {
+		let initData = {
 				combinator: config.combinators[0].combinator,
 				nodeName: '1',
 				rules: []
-				};		
+				};
+		if (query === '()'){
+			return initData; 		
 		}
 
 	}
@@ -36,5 +37,41 @@ export default class QueryParser{
 		for (let i = 0, length = query.length; i < length; i++){
 			// if (query.)
 		}
+	}
+
+	GetTokensArray(query, combinators){
+		let combinatorsIndexes = this.GetCombinatorsIndexes(query, combinators);
+		let tokens = [];
+		for (let i = 0, length = query.length; i < length; i++){
+			if (combinatorsIndexes.find(x => x.start===i)){
+				// there is a token
+			}
+			else if(query[i] === '(' || query[i] === ')'){
+				tokens.push(query[i]);
+			}
+			else{
+				
+			}
+		}
+	}
+
+	isInArray(element, index, array){
+
+	}
+
+	static GetCombinatorsIndexes(query, combinators){
+		let combinatorsIndexes = [];
+		let combinatorsPattern = '';
+		for (let i = 0; i < combinators.length; i++){
+			combinatorsPattern += `|${combinators[i].combinator}`;
+		}
+		//To remove first | character
+		combinatorsPattern = combinatorsPattern.slice(1);
+		combinatorsPattern = new RegExp(combinatorsPattern, 'gi');
+		var match;
+		while ((match = combinatorsPattern.exec(query)) !== null){
+			combinatorsIndexes.push({start: match.index, end: combinatorsPattern.lastIndex});
+		}
+		return combinatorsIndexes;
 	}
 }

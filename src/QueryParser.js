@@ -42,21 +42,39 @@ export default class QueryParser{
 	GetTokensArray(query, combinators){
 		let combinatorsIndexes = this.GetCombinatorsIndexes(query, combinators);
 		let tokens = [];
+		let token = '';
 		for (let i = 0, length = query.length; i < length; i++){
-			if (combinatorsIndexes.find(x => x.start===i)){
-				// there is a token
+			let combinatorIndexes = combinatorsIndexes.find(x => x.start===i);
+			if (combinatorIndexes){
+				let combinator = this.GetCombinatorByIndexes(query, combinatorIndexes.start, combinatorIndexes.end);
+				this.PushTokenIfNotEmpty(token, tokens);
+				tokens.push(combinator);
+				i=combinatorIndexes.end;
 			}
 			else if(query[i] === '(' || query[i] === ')'){
+				this.PushTokenIfNotEmpty(token, tokens);
 				tokens.push(query[i]);
 			}
 			else{
-				
+				token += query[i];
 			}
 		}
+		return tokens;
 	}
 
-	isInArray(element, index, array){
+	PushTokenIfNotEmpty(token, array){
+		if (token){
+			array.push(token);
+		}
+		token = '';
+	}
 
+	GetCombinatorByIndexes(query, start, end){
+		let combinator = '';
+		for(let i = start; i <= end; i++){
+			combinator+=query[i];
+		}
+		return combinator;
 	}
 
 	static GetCombinatorsIndexes(query, combinators){

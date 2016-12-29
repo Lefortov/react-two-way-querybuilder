@@ -39,14 +39,14 @@ export default class QueryParser{
 		}
 	}
 
-	GetTokensArray(query, combinators){
+	static GetTokensArray(query, combinators){
 		let combinatorsIndexes = this.GetCombinatorsIndexes(query, combinators);
 		let tokens = [];
 		let token = '';
 		for (let i = 0, length = query.length; i < length; i++){
 			let combinatorIndexes = combinatorsIndexes.find(x => x.start===i);
 			if (combinatorIndexes){
-				let combinator = this.GetCombinatorByIndexes(query, combinatorIndexes.start, combinatorIndexes.end);
+				let combinator = query.substring(combinatorIndexes.start, combinatorIndexes.end);				
 				this.PushTokenIfNotEmpty(token, tokens);
 				tokens.push(combinator);
 				i=combinatorIndexes.end;
@@ -62,34 +62,40 @@ export default class QueryParser{
 		return tokens;
 	}
 
-	PushTokenIfNotEmpty(token, array){
+	PushTokenIfNotEmpty(token, array, operators){
 		if (token){
-			array.push(token);
+			array.push(CreateTokenObject(operators, operators));
 		}
 		token = '';
 	}
 
-	GetCombinatorByIndexes(query, start, end){
-		let combinator = '';
-		for(let i = start; i <= end; i++){
-			combinator+=query[i];
-		}
-		return combinator;
+	static CreateTokenObject(token, operators){
+		let operatorsPattern = this.GetSearchPattern(operators, 'operator');
+		let match = operatorsStack.exec(query);
+		return {
+			field: query.substring(0, match.index),
+			operator: query.substring(match.index, match.lastIndex),
+			value: query.substring(match.lastIndex, query.length)
+		};
 	}
 
 	static GetCombinatorsIndexes(query, combinators){
 		let combinatorsIndexes = [];
-		let combinatorsPattern = '';
-		for (let i = 0; i < combinators.length; i++){
-			combinatorsPattern += `|${combinators[i].combinator}`;
-		}
-		//To remove first | character
-		combinatorsPattern = combinatorsPattern.slice(1);
-		combinatorsPattern = new RegExp(combinatorsPattern, 'gi');
+		let combinatorsPattern = this.GetSearchPattern(combinators, 'combinator');
 		var match;
 		while ((match = combinatorsPattern.exec(query)) !== null){
 			combinatorsIndexes.push({start: match.index, end: combinatorsPattern.lastIndex});
 		}
 		return combinatorsIndexes;
+	}
+
+	GetSearchPattern(searchValues, name){
+		let pattern;
+		for (let i = 0; i < searchValues.length; i++){
+			pattern += `|${searchValues[i][name]}`;
+		}
+		//To remove first | character
+		pattern = pattern.slice(1);
+		return new RegExp(pattern, 'gi');
 	}
 }

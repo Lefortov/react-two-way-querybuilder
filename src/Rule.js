@@ -1,5 +1,5 @@
 import React from 'react';
-import TreeHelper from './TreeHelper';
+import TreeHelper from './helpers/TreeHelper';
 
 class Rule extends React.Component {
   constructor(props) {

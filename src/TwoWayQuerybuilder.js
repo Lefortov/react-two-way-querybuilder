@@ -1,6 +1,7 @@
 import React from 'react';
 import Condition from './Condition';
-import QueryParser from './QueryParser';
+import QueryParser from './helpers/QueryParser';
+import ASTree from './helpers/ASTree';
 
 class TwoWayQuerybuilder extends React.Component {
   constructor(props) {
@@ -23,6 +24,8 @@ class TwoWayQuerybuilder extends React.Component {
     queryObj.data = data;
     queryObj.query = QueryParser.parseToQuery(data);
     this.setState({ query: queryObj.query });
+    const query = "((Firstname='kek' AND Firstname='kek1') OR (Firstname='kek3' AND Firstname='kek4'))";
+    console.log(ASTree.buildTree(QueryParser.getTokensArray(query, this.props.config.combinators, this.props.config.operators), this.props.config.combinators));
     if (this.props.onChange) {
       this.props.onChange(queryObj);
     }

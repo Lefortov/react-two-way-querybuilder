@@ -1,5 +1,5 @@
 import React from 'react';
-import TreeHelper from './TreeHelper';
+import TreeHelper from './helpers/TreeHelper';
 import Rule from './Rule';
 
 class Condition extends React.Component {

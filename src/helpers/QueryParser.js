@@ -25,19 +25,11 @@ export default class QueryParser {
     }
   }
 
-  createOutputStack(query, config) {
-    const operatorsStack = [];
-    const outputStack = [];
-    let separators = '';
-    for (let i = 0, length = config.combinators.length; i < length; i++) {
-      separators += config.combinators[i];
-    }
-    for (let i = 0, length = query.length; i < length; i++) {
-      // if (query.)
-    }
+  static buildLexicalTree(){
+    
   }
 
-  static GetTokensArray(query, combinators) {
+  static getTokensArray(query, combinators, operators) {
     const combinatorsIndexes = this.getCombinatorsIndexes(query, combinators);
     const tokens = [];
     let token = '';
@@ -45,11 +37,11 @@ export default class QueryParser {
       const combinatorIndexes = combinatorsIndexes.find(x => x.start === i);
       if (combinatorIndexes) {
         const combinator = query.substring(combinatorIndexes.start, combinatorIndexes.end);
-        this.pushTokenIfNotEmpty(token, tokens);
+        token = this.pushTokenIfNotEmpty(token, tokens, operators);
         tokens.push(combinator);
         i = combinatorIndexes.end;
       } else if (query[i] === '(' || query[i] === ')') {
-        this.pushTokenIfNotEmpty(token, tokens);
+        token = this.pushTokenIfNotEmpty(token, tokens, operators);
         tokens.push(query[i]);
       } else {
         token += query[i];
@@ -58,20 +50,22 @@ export default class QueryParser {
     return tokens;
   }
 
-  pushTokenIfNotEmpty(token, array, operators) {
+  static pushTokenIfNotEmpty(token, array, operators) {
+    token = token.trim();
     if (token) {
-      array.push(this.createTokenObject(operators, operators));
+      array.push(this.createTokenObject(token, operators));
     }
-    token = '';
+    return '';
   }
 
   static createTokenObject(token, operators) {
     const operatorsPattern = this.getSearchPattern(operators, 'operator');
     const match = operatorsPattern.exec(token);
+    const operatorEndIndex = match.index + match.length;
     return {
       field: token.substring(0, match.index),
-      operator: token.substring(match.index, match.lastIndex),
-      value: token.substring(match.lastIndex, token.length),
+      operator: token.substring(match.index, match.index + match.length),
+      value: token.substring(operatorEndIndex, token.length),
     };
   }
 
@@ -85,12 +79,12 @@ export default class QueryParser {
     return combinatorsIndexes;
   }
 
-  getSearchPattern(searchValues, name) {
-    let pattern;
+  static getSearchPattern(searchValues, name) {
+    let pattern = '';
     for (let i = 0; i < searchValues.length; i++) {
       pattern += `|${searchValues[i][name]}`;
     }
-		// To remove first | character
+    // To remove first | character
     pattern = pattern.slice(1);
     return new RegExp(pattern, 'gi');
   }

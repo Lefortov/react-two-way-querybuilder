@@ -8,6 +8,25 @@ import ASTree from '../helpers/ASTree';
 
 const { describe, it } = global;
 
+const combinators = [
+  { combinator: 'AND', label: 'And' },
+  { combinator: 'OR', label: 'Or' },
+  { combinator: 'NOT', label: 'Not' },
+];
+
+const operators = [
+  { operator: '=', label: '=' },
+  { operator: '<>', label: '<>' },
+  { operator: '<', label: '<' },
+  { operator: '>', label: '>' },
+  { operator: '>=', label: '>=' },
+  { operator: '<=', label: '<=' },
+  { operator: 'IS NULL', label: 'Null' },
+  { operator: 'IS NOT NULL', label: 'Not Null' },
+  { operator: 'IN', label: 'In' },
+  { operator: 'NOT IN', label: 'Not In' },
+];
+
 // describe('Button', () => {
 //   it('should show the given text', () => {
 //     const text = 'The Text';
@@ -34,11 +53,6 @@ describe('Query Parser', function () {
   describe('GetCombinatorsIndexes', function () {
     it('should return AND and OR substrings', function () {
       const query = "((Firstname='kek' AND Firstname='kek1') OR Firstname='Kek3')";
-      const combinators = [
-        { combinator: 'AND', label: 'And' },
-        { combinator: 'OR', label: 'Or' },
-        { combinator: 'NOT', label: 'Not' },
-      ];
       const result = QueryParser.getCombinatorsIndexes(query, combinators);
       const expectedFirstOeprator = query.substr(result[0].start, result[0].end - result[0].start);
       const expectedSecondOperator = query.substr(result[1].start, result[1].end - result[1].start);
@@ -50,18 +64,6 @@ describe('Query Parser', function () {
   describe('GetTokenObject', function () {
     it('should return token object', function () {
       const token = "Firstname='kek'";
-      const operators = [
-        { operator: '=', label: '=' },
-        { operator: '<>', label: '<>' },
-        { operator: '<', label: '<' },
-        { operator: '>', label: '>' },
-        { operator: '>=', label: '>=' },
-        { operator: '<=', label: '<=' },
-        { operator: 'IS NULL', label: 'Null' },
-        { operator: 'IS NOT NULL', label: 'Not Null' },
-        { operator: 'IN', label: 'In' },
-        { operator: 'NOT IN', label: 'Not In' },
-      ];
       const result = QueryParser.createTokenObject(token, operators);
       assert.equal(result.field, 'Firstname');
       assert.equal(result.operator, '=');
@@ -71,24 +73,7 @@ describe('Query Parser', function () {
 
   describe('Get tokens array', function () {
     it('should return token array', function () {
-      const query = "((Firstname='kek' AND Firstname='kek1') OR (Firstname='kek3' AND Firstname='kek4')";
-      const combinators = [
-        { combinator: 'AND', label: 'And' },
-        { combinator: 'OR', label: 'Or' },
-        { combinator: 'NOT', label: 'Not' },
-      ];
-      const operators = [
-        { operator: '=', label: '=' },
-        { operator: '<>', label: '<>' },
-        { operator: '<', label: '<' },
-        { operator: '>', label: '>' },
-        { operator: '>=', label: '>=' },
-        { operator: '<=', label: '<=' },
-        { operator: 'IS NULL', label: 'Null' },
-        { operator: 'IS NOT NULL', label: 'Not Null' },
-        { operator: 'IN', label: 'In' },
-        { operator: 'NOT IN', label: 'Not In' },
-      ];
+      const query = "((Firstname='kek' AND Firstname='kek1') OR Firstname='kek3')";
       const result = QueryParser.getTokensArray(query, combinators, operators);
       const expectedResult = [
         '(',
@@ -127,7 +112,17 @@ describe('Query Parser', function () {
   //     ];
   //     const tokens = QueryParser.getTokensArray(query, combinators, operators);
   //     const treeResult = ASTree.buildTree(tokens, combinators);
-      
   //   });
   // });
+
+  describe('get first combinator', function () {
+    it('should return AND', function () {
+      const query = "((Firstname='kek' AND Firstname='kek1'))";
+      const tokens = QueryParser.getTokensArray(query, combinators, operators);
+      const tree = ASTree.buildTree(tokens, combinators);
+      const expectedResult = 'AND';
+      const result = QueryParser.getFirstCombinator(tree, combinators);
+      assert.equal(result, expectedResult);
+    });
+  });
 });

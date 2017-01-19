@@ -8,7 +8,7 @@ export default class TreeHelper {
   }
 
   removeNodeByName(index) {
-	  this.removeNode(this.data, index, 0);
+    this.removeNode(this.data, index, 0);
     return this.data;
   }
 
@@ -20,7 +20,7 @@ export default class TreeHelper {
     for (const property in data) {
       if (data.hasOwnProperty(property)) {
         if (property === 'rules') {
-          for (let i = 0; i < data.rules.length; i++) {
+          for (let i = 0; i < data.rules.length; i += 1) {
             if (data.rules[i].nodeName === name) {
               data.rules.splice(i, 1);
               return;
@@ -41,7 +41,7 @@ export default class TreeHelper {
       if (treeData.hasOwnProperty(property)) {
         if (property === 'rules') {
           let node = null;
-          for (let i = 0; i < treeData.rules.length; i++) {
+          for (let i = 0; i < treeData.rules.length; i += 1) {
             if (treeData.rules[i].nodeName === name) {
               node = treeData.rules[i];
             } else if (treeData.rules[i].combinator && node === null) {

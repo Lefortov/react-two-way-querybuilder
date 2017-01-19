@@ -37,8 +37,8 @@ class Rule extends React.Component {
       return rule;
     }
     const ruleOperators = [];
-    for (let i = 0, length = field.operators.length; i < length; i++) {
-      for (let opIndex = 0, opLength = this.props.operators.length; opIndex < opLength; opLength++) {
+    for (let i = 0, length = field.operators.length; i < length; i += 1) {
+      for (let opIndex = 0, opLength = this.props.operators.length; opIndex < opLength; opLength += 1) {
         if (field.operators[i] === this.props.operators[opIndex].operator) {
           ruleOperators.push(this.props.operators[opIndex]);
         }
@@ -110,7 +110,7 @@ class Rule extends React.Component {
         <select className="form-control" onChange={this.onOperatorChanged}>
           {this.state.currField.operators.map((operator, index) =>
             <option value={operator.operator} key={index}>{operator.label}</option>
-					)}
+          )}
         </select>
         {this.getInputTag(this.state.currField.input.type)}
         <button className="button button-delete" onClick={this.handleDelete}>{this.props.buttonsText.delete}</button>

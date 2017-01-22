@@ -63,7 +63,7 @@ class Condition extends React.Component {
   render() {
     return (
       <div className="condition">
-        <select className="form-control" onChange={this.combinatorChange}>
+        <select value={this.state.data.combinator} className="form-control" onChange={this.combinatorChange}>
           {this
             .props
             .config

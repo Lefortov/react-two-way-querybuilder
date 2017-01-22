@@ -8,13 +8,14 @@ class TwoWayQuerybuilder extends React.Component {
     super(props);
     buildDefaultConfig(props.config);
     fillDefaultButtonsText(props.buttonsText);
+    const defaultData = {
+      combinator: this.props.config.combinators[0].combinator,
+      nodeName: '1',
+      rules: [],
+    };
     this.state = {
-      data: {
-        combinator: this.props.config.combinators[0].combinator,
-        nodeName: '1',
-        rules: [],
-      },
-      query: null,
+      data: props.config.query === '()' ? defaultData : QueryParser.parseToData(props.config.query, props.config),
+      query: props.config.query === '()' ? null : props.config.query,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -24,10 +25,6 @@ class TwoWayQuerybuilder extends React.Component {
     queryObj.data = data;
     queryObj.query = QueryParser.parseToQuery(data);
     this.setState({ query: queryObj.query });
-    const query = "((Firstname='kek' AND Firstname='kek1') OR Firstname='zalupka')";
-    let tree =ASTree.buildTree(QueryParser.getTokensArray(query, this.props.config.combinators, this.props.config.operators), this.props.config.combinators);
-    console.log('tree', tree);
-    console.log('pisun', QueryParser.getFirstCombinator(tree, this.props.config.combinators));
     if (this.props.onChange) {
       this.props.onChange(queryObj);
     }

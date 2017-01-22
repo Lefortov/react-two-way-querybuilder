@@ -19,14 +19,10 @@ export default class QueryParser {
   }
 
   static parseToData(query, config) {
-    if (query === '()') {
-      return initData;
-    }
-    let data = null;
+    const data = null;
     const tokens = this.getTokensArray(query, config.combinators, config.operators);
     const asTree = ASTree.buildTree(tokens, config.combinators);
-    const convertedData = this.convertSyntaxTreeToData(asTree, data, config.combinators, '1', '1');
-    console.log('convertData', convertedData);
+    return this.convertSyntaxTreeToData(asTree, data, config.combinators, '1', '1');
   }
 
   static convertSyntaxTreeToData(element, data, combinators, nodeName, combNodeName) {
@@ -39,24 +35,26 @@ export default class QueryParser {
       nodeName,
       rules: [],
     };
-    const currElement = treeHelper.getNodeByName(combNodeName);
+    let currElement = treeHelper.getNodeByName(combNodeName);
     if (element.value === '()' && !element.parent) {
       data = newCombinator;
+      currElement = data;
     } else if (element.value === '()' && element.parent) {
       currElement.rules.push(newCombinator);
       newCombName = nodeName;
-    } else if (element.field) {
+    } else if (element.value.field) {
       const newRule = {
-        field: element.field,
-        operator: element.operator,
-        value: element.value,
+        field: element.value.field,
+        operator: element.value.operator,
+        value: element.value.value,
         nodeName,
       };
       currElement.rules.push(newRule);
     }
     for (let i = 0; i < element.children.length; i += 1) {
-      this.convertSyntaxTreeToData(element.children[i], data, combinators, `${nodeName}/${i}`, newCombName);
+      this.convertSyntaxTreeToData(element.children[i], data, combinators, `${newCombName}/${currElement.rules.length + 1}`, newCombName);
     }
+    return data;
   }
 
   static getTokensArray(query, combinators, operators) {
@@ -95,7 +93,7 @@ export default class QueryParser {
     return {
       field: token.substring(0, match.index),
       operator: token.substring(match.index, match.index + match.length),
-      value: token.substring(operatorEndIndex, token.length),
+      value: token.substring(operatorEndIndex, token.length).replace(/[']+/g, ''),
     };
   }
 

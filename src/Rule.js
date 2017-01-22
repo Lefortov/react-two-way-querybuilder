@@ -102,12 +102,12 @@ class Rule extends React.Component {
   render() {
     return (
       <div className="rule">
-        <select className="form-control" onChange={this.onFieldChanged}>
+        <select value={this.node.field} className="form-control" onChange={this.onFieldChanged}>
           {this.props.fields.map((field, index) =>
             <option value={field.name} key={index}>{field.label}</option>
           )}
         </select>
-        <select className="form-control" onChange={this.onOperatorChanged}>
+        <select value={this.node.operator} className="form-control" onChange={this.onOperatorChanged}>
           {this.state.currField.operators.map((operator, index) =>
             <option value={operator.operator} key={index}>{operator.label}</option>
           )}

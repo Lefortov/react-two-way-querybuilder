@@ -4,7 +4,7 @@ import App from '../index';
 import './index.css';
 
 
-storiesOf('Button', module)
+storiesOf('Query builder', module)
   .add('default view', () => (
     <App />
   ));

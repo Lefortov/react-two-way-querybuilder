@@ -2,16 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import TwoWayQuerybuilder from './TwoWayQuerybuilder';
 
-const config = {};
+const config = {
+  query: "((firstname='kek' AND firstname='kek1') OR lastName='zalupka')",
+};
 const fields = [
-	{ name: 'firstName', operators: 'all', label: 'First Name', input: { type: 'text' } },
-	{ name: 'lastName', operators: 'all', label: 'Last Name', input: { type: 'text' } },
-  { name: 'age', operators: 'all', label: 'Age', input: { type: 'select',
-	 options: [
-		{ value: '11', name: 'eleven' },
-		{ value: '12', name: 'twelve' },
- ] } },
-	{ name: 'birthDate', operators: 'all', label: 'Birth date', input: { type: 'text' } },
+  { name: 'firstName', operators: 'all', label: 'First Name', input: { type: 'text' } },
+  { name: 'lastName', operators: 'all', label: 'Last Name', input: { type: 'text' } },
+  { name: 'age', operators: 'all', label: 'Age',
+    input: {
+      type: 'select',
+      options: [
+        { value: '11', name: 'eleven' },
+        { value: '12', name: 'twelve' },
+      ] } },
+  { name: 'birthDate', operators: 'all', label: 'Birth date', input: { type: 'text' } },
 ];
 
 class App extends React.Component {

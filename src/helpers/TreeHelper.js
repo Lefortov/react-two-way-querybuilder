@@ -3,8 +3,8 @@ export default class TreeHelper {
     this.data = data;
   }
 
-  generateNodeName(prevNodeName, childNumber) {
-    return `${prevNodeName}/${childNumber}`;
+  generateNodeName(node) {
+    return `${node.nodeName}/${node.rules.length + 1}`;
   }
 
   removeNodeByName(index) {

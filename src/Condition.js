@@ -6,40 +6,38 @@ class Condition extends React.Component {
   constructor(props) {
     super(props);
     this.treeHelper = new TreeHelper(this.props.data);
-    const node = this.treeHelper.getNodeByName(this.props.nodeName);
+    this.node = this.treeHelper.getNodeByName(this.props.nodeName);
     this.state = {
-      childAmount: 0,
-      data: node,
+      data: this.node,
     };
     this.addRule = this.addRule.bind(this);
     this.addCondition = this.addCondition.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleChildUpdate = this.handleChildUpdate.bind(this);
     this.combinatorChange = this.combinatorChange.bind(this);
+    this.styles = this.props.config.styles;
   }
 
   addRule() {
-    const data = this.treeHelper.getNodeByName(this.props.nodeName);
-    const childAmount = this.state.childAmount + 1;
-    const nodeName = this.treeHelper.generateNodeName(this.props.nodeName, childAmount);
+    const data = this.state.data;
+    const nodeName = this.treeHelper.generateNodeName(this.state.data);
     data.rules.push({
       field: this.props.fields[0].name,
       operator: this.props.config.operators[0].operator,
       value: '',
       nodeName });
-    this.setState({ data, childAmount });
+    this.setState({ data });
     this.props.onChange(this.props.data);
   }
 
   addCondition() {
-    const data = this.treeHelper.getNodeByName(this.props.nodeName);
-    const childAmount = this.state.childAmount + 1;
-    const nodeName = this.treeHelper.generateNodeName(this.props.nodeName, childAmount);
+    const data = this.state.data;
+    const nodeName = this.treeHelper.generateNodeName(this.state.data);
     data.rules.push({
       combinator: this.props.config.combinators[0].combinator,
       nodeName,
       rules: [] });
-    this.setState({ data, childAmount });
+    this.setState({ data });
     this.props.onChange(this.props.data);
   }
 
@@ -55,15 +53,14 @@ class Condition extends React.Component {
   }
 
   combinatorChange(event) {
-    const node = this.treeHelper.getNodeByName(this.props.nodeName);
-    node.combinator = event.target.value;
+    this.node.combinator = event.target.value;
     this.props.onChange(this.props.data);
   }
 
   render() {
     return (
-      <div className="condition">
-        <select value={this.state.data.combinator} className="form-control" onChange={this.combinatorChange}>
+      <div className={this.styles.condition}>
+        <select value={this.state.data.combinator} className={this.styles.select} onChange={this.combinatorChange}>
           {this
             .props
             .config
@@ -72,16 +69,16 @@ class Condition extends React.Component {
               return <option value={combinator.combinator} key={index}>{combinator.label}</option>;
             })}
         </select>
-        <button className="button button-primary" onClick={this.addCondition}>
+        <button className={this.styles.primaryBtn} onClick={this.addCondition}>
           {this.props.buttonsText.addGroup}
         </button>
-        <button className="button button-primary" onClick={this.addRule}>
+        <button className={this.styles.primaryBtn} onClick={this.addRule}>
           {this.props.buttonsText.addRule}
         </button>
         {this.props.nodeName !== '1'
           ? <button
             onClick={() => this.handleDelete(this.props.nodeName)}
-            className="button button-delete">{this.props.buttonsText.delete}</button>
+            className={this.styles.deleteBtn}>{this.props.buttonsText.delete}</button>
           : null}
         {this
           .state
@@ -96,7 +93,8 @@ class Condition extends React.Component {
                 operators={this.props.config.operators}
                 nodeName={rule.nodeName}
                 data={this.props.data}
-                onChange={this.handleChildUpdate} />);
+                onChange={this.handleChildUpdate}
+                styles={this.props.config.styles} />);
             } else {
               return (<Condition
                 key={index}

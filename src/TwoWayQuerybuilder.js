@@ -1,21 +1,65 @@
 import React from 'react';
 import Condition from './Condition';
 import QueryParser from './helpers/QueryParser';
-import ASTree from './helpers/ASTree';
+import './styles.css';
+
+function buildDefaultConfig(config) {
+  const defConfig = config || {};
+  defConfig.query = defConfig.query ? defConfig.query : '()';
+  defConfig.operators = defConfig.operators ? defConfig.operators :
+  [
+    { operator: '=', label: '=' },
+    { operator: '<>', label: '<>' },
+    { operator: '<', label: '<' },
+    { operator: '>', label: '>' },
+    { operator: '>=', label: '>=' },
+    { operator: '<=', label: '<=' },
+    { operator: 'IS NULL', label: 'Null' },
+    { operator: 'IS NOT NULL', label: 'Not Null' },
+    { operator: 'IN', label: 'In' },
+    { operator: 'NOT IN', label: 'Not In' },
+  ];
+  defConfig.combinators = defConfig.combinators ? defConfig.combinators :
+  [
+    { combinator: 'AND', label: 'And' },
+    { combinator: 'OR', label: 'Or' },
+    { combinator: 'NOT', label: 'Not' },
+  ];
+  defConfig.animation = defConfig.animation ? defConfig.animation : 'none';
+  defConfig.styles = defConfig.styles ? defConfig.styles : {
+    primaryBtn: 'queryButtonPrimary',
+    deleteBtn: 'queryButtonDelete',
+    rule: 'rule',
+    condition: 'condition',
+    select: 'querySelect',
+    input: 'queryInput',
+    txtArea: 'queryText',
+  };
+  return defConfig;
+}
+
+function fillDefaultButtonsText(buttonsText) {
+  const defBtnText = buttonsText || {};
+  defBtnText.addRule = defBtnText.addRule ? defBtnText.addRule : 'Add rule';
+  defBtnText.addGroup = defBtnText.addGroup ? defBtnText.addGroup : 'Add group';
+  defBtnText.clear = defBtnText.clear ? defBtnText.clear : 'Clear';
+  defBtnText.delete = defBtnText.delete ? defBtnText.delete : 'Delete';
+  return defBtnText;
+}
 
 class TwoWayQuerybuilder extends React.Component {
   constructor(props) {
     super(props);
-    buildDefaultConfig(props.config);
-    fillDefaultButtonsText(props.buttonsText);
+    this.config = buildDefaultConfig(props.config);
+    this.buttonsText = fillDefaultButtonsText(props.buttonsText);
     const defaultData = {
-      combinator: this.props.config.combinators[0].combinator,
+      combinator: this.config.combinators[0].combinator,
       nodeName: '1',
       rules: [],
     };
     this.state = {
-      data: props.config.query === '()' ? defaultData : QueryParser.parseToData(props.config.query, props.config),
-      query: props.config.query === '()' ? null : props.config.query,
+      data: this.config.query === '()' ? defaultData : QueryParser.parseToData(this.config.query, this.config),
+      query: this.config.query === '()' ? null : this.config.query,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -33,8 +77,8 @@ class TwoWayQuerybuilder extends React.Component {
   render() {
     return (<div>
       <Condition
-        config={this.props.config}
-        buttonsText={this.props.buttonsText}
+        config={this.config}
+        buttonsText={this.buttonsText}
         fields={this.props.fields}
         nodeName="1"
         data={this.state.data}
@@ -44,41 +88,9 @@ class TwoWayQuerybuilder extends React.Component {
   }
 }
 
-function buildDefaultConfig(config) {
-  config.type = config.type ? config.type : 'SQL';
-  config.query = config.query ? config.query : '()';
-  config.operators = config.operators ? config.operators :
-  [
-    { operator: '=', label: '=' },
-    { operator: '<>', label: '<>' },
-    { operator: '<', label: '<' },
-    { operator: '>', label: '>' },
-    { operator: '>=', label: '>=' },
-    { operator: '<=', label: '<=' },
-    { operator: 'IS NULL', label: 'Null' },
-    { operator: 'IS NOT NULL', label: 'Not Null' },
-    { operator: 'IN', label: 'In' },
-    { operator: 'NOT IN', label: 'Not In' },
-  ];
-  config.combinators = config.combinators ? config.combinators :
-  [
-    { combinator: 'AND', label: 'And' },
-    { combinator: 'OR', label: 'Or' },
-    { combinator: 'NOT', label: 'Not' },
-  ];
-  config.animation = config.animation ? config.animation : 'none';
-}
-
-function fillDefaultButtonsText(buttonsText) {
-  buttonsText.addRule = buttonsText.addRule ? buttonsText.addRule : 'Add rule';
-  buttonsText.addGroup = buttonsText.addGroup ? buttonsText.addGroup : 'Add group';
-  buttonsText.clear = buttonsText.clear ? buttonsText.clear : 'Clear';
-  buttonsText.delete = buttonsText.delete ? buttonsText.delete : 'Delete';
-}
-
 TwoWayQuerybuilder.propTypes = {
   buttonsText: React.PropTypes.object,
-  config: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object,
   fields: React.PropTypes.array.isRequired,
   onChange: React.PropTypes.func,
 };

@@ -18,13 +18,62 @@ class Rule extends React.Component {
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.node = this.treeHelper.getNodeByName(nextProps.nodeName);
+  }
+
+  onFieldChanged(event) {
+    this.node.field = event.target.value;
+    const field = this.getFieldByName(event.target.value);
+    const rule = this.generateRuleObject(field, this.node);
+    this.setState({ currField: rule });
+    this.props.onChange();
+  }
+
+  onOperatorChanged(event) {
+    this.node.operator = event.target.value;
+    const field = this.getFieldByName(this.node.field);
+    const rule = this.generateRuleObject(field, this.node);
+    this.setState({ currField: rule });
+    this.props.onChange();
+  }
+
+  onInputChanged(event) {
+    this.node.value = event.target.value;
+    const field = this.getFieldByName(this.node.field);
+    const rule = this.generateRuleObject(field, this.node);
+    this.setState({ currField: rule });
+    this.props.onChange();
+  }
+
   getFieldByName(name) {
-    for (let i = 0, length = this.props.fields.length; i < length; i++) {
+    for (let i = 0, length = this.props.fields.length; i < length; i += 1) {
       if (this.props.fields[i].name === name) {
         return this.props.fields[i];
       }
     }
     return null;
+  }
+
+  getInputTag(inputType) {
+    switch (inputType) {
+      case 'textarea': return (<div className={this.props.styles.txtArea}>
+        <textarea
+          className="input" onChange={this.onInputChanged}
+          value={this.node.value ? this.node.value : ''}
+        />
+      </div>);
+      case 'select': return (<select className={this.props.styles.select} onChange={this.onInputChanged}>
+        {this.state.currField.input.options.map((option, index) =>
+          <option value={option.value} key={index}>{option.name}</option>
+        )}
+      </select>);
+      default: return (<input
+        type={this.state.currField.input.type}
+        value={this.node.value}
+        onChange={this.onInputChanged} className={this.props.styles.input}
+      />);
+    }
   }
 
   generateRuleObject(field, node) {
@@ -53,67 +102,21 @@ class Rule extends React.Component {
     this.props.onChange();
   }
 
-  onFieldChanged(event) {
-    this.node.field = event.target.value;
-    const field = this.getFieldByName(event.target.value);
-    const rule = this.generateRuleObject(field, this.node);
-    this.setState({ currField: rule });
-    this.props.onChange();
-  }
-
-  onOperatorChanged(event) {
-    this.node.operator = event.target.value;
-    const field = this.getFieldByName(this.node.field);
-    const rule = this.generateRuleObject(field, this.node);
-    this.setState({ currField: rule });
-    this.props.onChange();
-  }
-
-  onInputChanged(event) {
-    this.node.value = event.target.value;
-    const field = this.getFieldByName(this.node.field);
-    const rule = this.generateRuleObject(field, this.node);
-    this.setState({ currField: rule });
-    this.props.onChange();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.node = this.treeHelper.getNodeByName(nextProps.nodeName);
-  }
-
-  getInputTag(inputType) {
-    switch (inputType) {
-      case 'textarea': return (<textarea className="form-control" onChange={this.onInputChanged}>
-        {this.node.value ? this.node.value : ''}
-      </textarea>);
-      case 'select': return (<select className="form-control" onChange={this.onInputChanged}>
-        {this.state.currField.input.options.map((option, index) =>
-          <option value={option.value} key={index}>{option.name}</option>
-        )}
-      </select>);
-      default: return (<input
-        type={this.state.currField.input.type}
-        value={this.node.value}
-        onChange={this.onInputChanged} className="form-control"
-      />);
-    }
-  }
-
   render() {
     return (
-      <div className="rule">
-        <select value={this.node.field} className="form-control" onChange={this.onFieldChanged}>
+      <div className={this.props.styles.rule}>
+        <select value={this.node.field} className={this.props.styles.select} onChange={this.onFieldChanged}>
           {this.props.fields.map((field, index) =>
             <option value={field.name} key={index}>{field.label}</option>
           )}
         </select>
-        <select value={this.node.operator} className="form-control" onChange={this.onOperatorChanged}>
+        <select value={this.node.operator} className={this.props.styles.select} onChange={this.onOperatorChanged}>
           {this.state.currField.operators.map((operator, index) =>
             <option value={operator.operator} key={index}>{operator.label}</option>
           )}
         </select>
         {this.getInputTag(this.state.currField.input.type)}
-        <button className="button button-delete" onClick={this.handleDelete}>{this.props.buttonsText.delete}</button>
+        <button className={this.props.styles.deleteBtn} onClick={this.handleDelete}>{this.props.buttonsText.delete}</button>
       </div>
     );
   }
@@ -126,6 +129,7 @@ Rule.propTypes = {
   nodeName: React.PropTypes.string.isRequired,
   onChange: React.PropTypes.func,
   operators: React.PropTypes.array.isRequired,
+  styles: React.PropTypes.object.isRequired,
 };
 
 export default Rule;

@@ -86,10 +86,10 @@ Props:
     * `input`: input styles,
     * `txtArea`: text area styles :D
 - **buttonsText**: text of the buttons, you can redefine it for multilanguage support or because you just want. By default used following text:
-  * addRule: `'Add rule'`,
-  * addGroup: `'Add group'`,
-  * clear: `'Clear'`,
-  * delete: `'Delete'`
+    * addRule: `'Add rule'`,
+    * addGroup: `'Add group'`,
+    * clear: `'Clear'`,
+    * delete: `'Delete'`
 
 ## Samples
 

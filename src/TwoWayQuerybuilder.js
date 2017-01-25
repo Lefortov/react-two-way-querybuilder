@@ -1,7 +1,7 @@
 import React from 'react';
 import Condition from './Condition';
 import QueryParser from './helpers/QueryParser';
-import './styles.css';
+import '../styles.css';
 
 function buildDefaultConfig(config) {
   const defConfig = config || {};

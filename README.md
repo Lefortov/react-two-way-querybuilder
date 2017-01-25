@@ -1,6 +1,6 @@
 # React Two Way Querybuilder
 
-A simple react component that lets you build queries dynamically on UI. Doesn't depend from any 3-d party libraries.
+A simple react component that lets you build queries dynamically on UI. Doesn't depend on any 3-d party libraries.
 
 ![image](https://github.com/Lefortov/react-two-way-querybuilder/blob/master/blob/builder.jpg)
 
@@ -46,9 +46,9 @@ Simple usage:
 Props:
 
 - **fields**: your fields used to build a query
-  * name: name of the field that would be used in query
+  * name: name of the field that would be used in a query
   * label: how your field name would be shown in the dropdown
-  * operators: remove this property or set to 'all' if you want use all operators on this field, else you can limit them by passing the array of allowed operators for this field `['=', '<', '>']`
+  * operators: remove this property or set to 'all' if you want to use all operators for this field, else you can limit them by passing the array of the allowed operators `['=', '<', '>']`
   * input: type of the input, possible options are: `text`, `textarea`, `select`. If you are using `select` input type pass options to the object in the following way:
     `input: {type: 'select', options: [{value: '1', name: 'one'}, {value: '2', name: 'two'}]}`
 - **onChange**: pass here your function that will be called when data was changed

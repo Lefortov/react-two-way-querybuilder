@@ -2,7 +2,7 @@
 
 A simple react component that lets you build queries dynamically on UI. Doesn't depend from any 3-d party libraries.
 
-<![image](https://github.com/Lefortov/react-two-way-querybuilder/blob/master/blob/builder.jpg)>
+![image](https://github.com/Lefortov/react-two-way-querybuilder/blob/master/blob/builder.jpg)
 
 ## Installing
 

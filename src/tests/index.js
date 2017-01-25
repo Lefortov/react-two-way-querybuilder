@@ -1,7 +1,3 @@
-import React from 'react';
-import { shallow, mount } from 'enzyme';
-import { expect } from 'chai';
-import sinon from 'sinon';
 import assert from 'assert';
 import QueryParser from '../helpers/QueryParser';
 import ASTree from '../helpers/ASTree';
@@ -26,28 +22,6 @@ const operators = [
   { operator: 'IN', label: 'In' },
   { operator: 'NOT IN', label: 'Not In' },
 ];
-
-// describe('Button', () => {
-//   it('should show the given text', () => {
-//     const text = 'The Text';
-//     const wrapper = shallow(<Button>{text}</Button>);
-//     expect(wrapper.text()).to.be.equal(text);
-//   });
-
-//   it('should handle the click event', () => {
-//     const clickMe = sinon.stub();
-//     // Here we do a JSDOM render. So, that's why we need to
-//     // wrap this with a div.
-//     const wrapper = mount(
-//       <div>
-//         <Button onClick={ clickMe }>ClickMe</Button>
-//       </div>
-//     );
-
-//     wrapper.find('button').simulate('click');
-//     expect(clickMe.callCount).to.be.equal(1);
-//   });
-// });
 
 describe('Query Parser', function () {
   describe('GetCombinatorsIndexes', function () {
@@ -89,31 +63,6 @@ describe('Query Parser', function () {
       assert.deepEqual(result, expectedResult);
     });
   });
-
-  // describe('Build ASTree', function () {
-  //   it('should return AST', function () {
-  //     const query = "((Firstname='kek' AND Firstname='kek1') OR Firstname='kek3')";
-  //     const combinators = [
-  //       { combinator: 'AND', label: 'And' },
-  //       { combinator: 'OR', label: 'Or' },
-  //       { combinator: 'NOT', label: 'Not' },
-  //     ];
-  //     const operators = [
-  //       { operator: '=', label: '=' },
-  //       { operator: '<>', label: '<>' },
-  //       { operator: '<', label: '<' },
-  //       { operator: '>', label: '>' },
-  //       { operator: '>=', label: '>=' },
-  //       { operator: '<=', label: '<=' },
-  //       { operator: 'IS NULL', label: 'Null' },
-  //       { operator: 'IS NOT NULL', label: 'Not Null' },
-  //       { operator: 'IN', label: 'In' },
-  //       { operator: 'NOT IN', label: 'Not In' },
-  //     ];
-  //     const tokens = QueryParser.getTokensArray(query, combinators, operators);
-  //     const treeResult = ASTree.buildTree(tokens, combinators);
-  //   });
-  // });
 
   describe('get first combinator', function () {
     it('should return AND', function () {

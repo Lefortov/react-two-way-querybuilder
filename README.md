@@ -2,11 +2,9 @@
 
 A simple react component that lets you build queries dynamically on UI. Doesn't depend from any 3-d party libraries.
 
-[!image](blob/builder.jpg)
+<![image](https://github.com/Lefortov/react-two-way-querybuilder/blob/master/blob/builder.jpg)>
 
 ## Installing
-
-Install it:
 
 ```bash
 npm i react-two-way-querybuilder --save
@@ -57,8 +55,8 @@ Props:
 - **config**: configuration object with possible options:
   * query: pass here prepared query, so UI will be built using it.
   * operators: array of operators, the default one is: 
-    ```
-    [
+      ```
+      [
         { operator: '=', label: '=' },
         { operator: '<>', label: '<>' },
         { operator: '<', label: '<' },
@@ -80,18 +78,18 @@ Props:
     ]
     ```
   * style: use this object to redefine styles. Properties:
-    `primaryBtn`: used for primary button styles,
-    `deleteBtn`: delete button styles,
-    `rule`: rule styles,
-    `condition`: condition styles,
-    `select`: select styles,
-    `input`: input styles,
-    `txtArea`: text area styles :D
+    * `primaryBtn`: used for primary button styles,
+    * `deleteBtn`: delete button styles,
+    * `rule`: rule styles,
+    * `condition`: condition styles,
+    * `select`: select styles,
+    * `input`: input styles,
+    * `txtArea`: text area styles :D
 - **buttonsText**: text of the buttons, you can redefine it for multilanguage support or because you just want. By default used following text:
-`addRule`: `'Add rule'`,
-`addGroup`: `'Add group'`,
-`clear`: `'Clear'`,
-`delete`: `'Delete'`
+  * addRule: `'Add rule'`,
+  * addGroup: `'Add group'`,
+  * clear: `'Clear'`,
+  * delete: `'Delete'`
 
 ## Samples
 
@@ -130,23 +128,6 @@ Visit [DEMO]() storybook to take a look at basic usage cases:
 ```
 - **changed input types**:
   ```
-  const changedFields = [
-  { name: 'firstName', operators: 'all', label: 'First Name', input: { type: 'text' } },
-  { name: 'lastName', operators: 'all', label: 'Last Name', input: {
-    type: 'select',
-    options: [
-      { value: 'Smith', name: 'Smith' },
-      { value: 'London', name: 'London' },
-    ] } },
-  { name: 'age', operators: 'all', label: 'Age',
-    input: {
-      type: 'select',
-      options: [
-        { value: '28', name: 'twenty eight' },
-        { value: '30', name: 'thirty' },
-      ] } },
-  { name: 'birthDate', operators: 'all', label: 'Birth date', input: { type: 'text' } },
-
     import React, { Component } from 'react';
     import TwoWayQuerybuilder from 'TwoWayQuerybuilder';
 

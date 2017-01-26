@@ -93,7 +93,7 @@ Props:
 
 ## Samples
 
-Visit [DEMO]() storybook to take a look at basic usage cases: 
+Visit [DEMO](https://lefortov.github.io/react-two-way-querybuilder) storybook to take a look at basic usage cases: 
 
 - **existing query**: 
   ```

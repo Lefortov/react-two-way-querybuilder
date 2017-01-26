@@ -53,22 +53,24 @@ class Rule extends React.Component {
 
   getInputTag(inputType) {
     switch (inputType) {
-      case 'textarea': return (<div className={this.styles.txtArea}>
-        <textarea
-          className="input" onChange={this.onInputChanged}
-          value={this.node.value ? this.node.value : ''}
-        />
-      </div>);
-      case 'select': return (<select className={this.styles.select} onChange={this.onInputChanged}>
-        {this.state.currField.input.options.map((option, index) =>
-          <option value={option.value} key={index}>{option.name}</option>
-        )}
-      </select>);
-      default: return (<input
-        type={this.state.currField.input.type}
-        value={this.node.value}
-        onChange={this.onInputChanged} className={this.styles.input}
-      />);
+      case 'textarea': return (
+        <div className={this.styles.txtArea}>
+          <textarea
+            className="input" onChange={this.onInputChanged}
+            value={this.node.value ? this.node.value : ''}
+          />
+        </div>);
+      case 'select': return (
+        <select className={this.styles.select} onChange={this.onInputChanged}>
+          {this.state.currField.input.options.map((option, index) =>
+            <option value={option.value} key={index}>{option.name}</option>)}
+        </select>);
+      default: return (
+        <input
+          type={this.state.currField.input.type}
+          value={this.node.value}
+          onChange={this.onInputChanged} className={this.styles.input}
+        />);
     }
   }
 

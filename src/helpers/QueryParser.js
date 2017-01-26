@@ -9,7 +9,7 @@ export default class QueryParser {
       if (!data.rules[i].combinator) {
         query += `${data.rules[i].field} ${data.rules[i].operator} '${data.rules[i].value}'`;
         if (i !== length - 1 && !data.rules[i + 1].combinator) {
-          query += `${data.combinator} `;
+          query += ` ${data.combinator} `;
         }
       } else {
         query += ` ${data.combinator} ${this.parseToQuery(data.rules[i], query)}`;

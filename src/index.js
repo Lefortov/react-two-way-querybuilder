@@ -1,1 +1,3 @@
-export TwoWayQuerybuilder from './TwoWayQuerybuilder.js';
+import TwoWayQuerybuilder from './TwoWayQuerybuilder';
+
+export default TwoWayQuerybuilder;

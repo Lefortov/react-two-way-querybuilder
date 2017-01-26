@@ -96,7 +96,7 @@ Props:
 Visit [DEMO]() storybook to take a look at basic usage cases: 
 
 - **existing query**: 
-```
+  ```
     import React, { Component } from 'react';
     import TwoWayQuerybuilder from 'react-two-way-querybuilder';;
 
@@ -125,7 +125,8 @@ Visit [DEMO]() storybook to take a look at basic usage cases:
     }
 
     export default App;
-```
+  ```
+
 - **changed input types**:
   ```
     import React, { Component } from 'react';
@@ -163,10 +164,9 @@ Visit [DEMO]() storybook to take a look at basic usage cases:
     }
 
     export default App;
-];
-```
+  ```
 - **custom styles**
-```
+  ```
     import React, { Component } from 'react';
     import TwoWayQuerybuilder from 'react-two-way-querybuilder';;
 
@@ -205,7 +205,7 @@ Visit [DEMO]() storybook to take a look at basic usage cases:
     }
 
     export default App;
-```
+  ```
 
 ##License
 

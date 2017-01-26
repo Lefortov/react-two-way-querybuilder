@@ -18,7 +18,7 @@ Simple usage:
 
 ```
     import React, { Component } from 'react';
-    import TwoWayQuerybuilder from 'TwoWayQuerybuilder';
+    import TwoWayQuerybuilder from 'react-two-way-querybuilder';
 
     const fields = [
       { name: 'firstName', operators: 'all', label: 'First Name', input: { type: 'text' } },
@@ -96,9 +96,9 @@ Props:
 Visit [DEMO]() storybook to take a look at basic usage cases: 
 
 - **existing query**: 
-```
+  ```
     import React, { Component } from 'react';
-    import TwoWayQuerybuilder from 'TwoWayQuerybuilder';
+    import TwoWayQuerybuilder from 'react-two-way-querybuilder';;
 
     const fields = [
       { name: 'firstName', operators: 'all', label: 'First Name', input: { type: 'text' } },
@@ -125,11 +125,12 @@ Visit [DEMO]() storybook to take a look at basic usage cases:
     }
 
     export default App;
-```
+  ```
+
 - **changed input types**:
   ```
     import React, { Component } from 'react';
-    import TwoWayQuerybuilder from 'TwoWayQuerybuilder';
+    import TwoWayQuerybuilder from 'react-two-way-querybuilder';;
 
     const changedFields = [
       { name: 'firstName', operators: 'all', label: 'First Name', input: { type: 'text' } },
@@ -163,12 +164,11 @@ Visit [DEMO]() storybook to take a look at basic usage cases:
     }
 
     export default App;
-];
-```
+  ```
 - **custom styles**
-```
+  ```
     import React, { Component } from 'react';
-    import TwoWayQuerybuilder from 'TwoWayQuerybuilder';
+    import TwoWayQuerybuilder from 'react-two-way-querybuilder';;
 
     const fields = [
       { name: 'firstName', operators: 'all', label: 'First Name', input: { type: 'text' } },
@@ -205,7 +205,7 @@ Visit [DEMO]() storybook to take a look at basic usage cases:
     }
 
     export default App;
-```
+  ```
 
 ##License
 

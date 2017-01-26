@@ -1,6 +1,6 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
-import TwoWayQuerybuilder from '../TwoWayQuerybuilder';
+import TwoWayQuerybuilder from '../../src/TwoWayQuerybuilder';
 import './index.css';
 
 const config = {

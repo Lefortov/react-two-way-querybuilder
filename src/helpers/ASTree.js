@@ -7,7 +7,6 @@ export default class ASTree {
     for (let i = 0, length = tokens.length; i < length; i += 1) {
       if (tokens[i] === '(') {
         const node = new TreeNode(tokens[i], currentNode, []);
-        console.log('node', node);
         if (!currentNode) {
           tree = node;
         } else {
@@ -45,9 +44,9 @@ export default class ASTree {
     return tree;
   }
 
-  static getNearestCombinator(tokens, index, combinators){
-    for (let i = index, length = tokens.length; i < length; i++){
-      if (combinators.find(x => x.combinator === tokens[i])){
+  static getNearestCombinator(tokens, index, combinators) {
+    for (let i = index, length = tokens.length; i < length; i += 1) {
+      if (combinators.find(x => x.combinator === tokens[i])) {
         return tokens[i];
       }
     }

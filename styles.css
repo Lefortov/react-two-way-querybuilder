@@ -181,7 +181,7 @@
 .queryInput{
   color: rgba(0, 0, 0, 0.87);
   color: var(--mdc-theme-text-primary-on-light, rgba(0, 0, 0, 0.87));
-  padding: 0 0 8px;
+  padding: 0 0 14px;
   border: none;
   background: none;
   font-size: inherit;
@@ -223,4 +223,8 @@
 }@keyframes fade {
   from {opacity: 0}
   to {opacity: 1}
+}
+
+.error {
+  color: red;
 }

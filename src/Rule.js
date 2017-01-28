@@ -1,6 +1,14 @@
 import React from 'react';
 import TreeHelper from './helpers/TreeHelper';
 
+const defaultErrorMsg = 'Input value is not correct';
+
+const isValueCorrect = (pattern, value) => {
+  const newPattern = new RegExp(pattern);
+  const match = newPattern.exec(value);
+  return match === null;
+};
+
 class Rule extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +24,7 @@ class Rule extends React.Component {
     this.styles = this.props.styles;
     this.state = {
       currField: this.generateRuleObject(this.props.fields[0], this.node),
+      validationError: false,
     };
   }
 
@@ -40,10 +49,15 @@ class Rule extends React.Component {
   }
 
   onInputChanged(event) {
+    console.log('curr field', this.state.currField);
+    if (this.state.currField.input.pattern) {
+      this.setState({ validationError: isValueCorrect(this.state.currField.input.pattern, event.target.value.toString()) });
+    }
     this.node.value = event.target.value;
     const field = this.getFieldByName(this.node.field);
     const rule = this.generateRuleObject(field, this.node);
     this.setState({ currField: rule });
+    console.log('state', this.state);
     this.props.onChange();
   }
 
@@ -52,6 +66,8 @@ class Rule extends React.Component {
   }
 
   getInputTag(inputType) {
+    const errorText = this.state.currField.input.errorText;
+
     switch (inputType) {
       case 'textarea': return (
         <div className={this.styles.txtArea}>
@@ -59,6 +75,9 @@ class Rule extends React.Component {
             className="input" onChange={this.onInputChanged}
             value={this.node.value ? this.node.value : ''}
           />
+          {this.state.validationError
+            ? <p className={this.styles.error}>{errorText || defaultErrorMsg}</p>
+            : null}
         </div>);
       case 'select': return (
         <select className={this.styles.select} onChange={this.onInputChanged}>
@@ -66,11 +85,16 @@ class Rule extends React.Component {
             <option value={option.value} key={index}>{option.name}</option>)}
         </select>);
       default: return (
-        <input
-          type={this.state.currField.input.type}
-          value={this.node.value}
-          onChange={this.onInputChanged} className={this.styles.input}
-        />);
+        <div>
+          <input
+            type={this.state.currField.input.type}
+            value={this.node.value}
+            onChange={this.onInputChanged} className={this.styles.input}
+          />
+          {this.state.validationError
+            ? <p className={this.styles.error}>{errorText || defaultErrorMsg}</p>
+            : null}
+        </div>);
     }
   }
 

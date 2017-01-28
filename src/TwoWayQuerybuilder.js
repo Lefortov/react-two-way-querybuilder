@@ -34,6 +34,7 @@ function buildDefaultConfig(config) {
     select: 'querySelect',
     input: 'queryInput',
     txtArea: 'queryText',
+    error: 'error',
   };
   return defConfig;
 }

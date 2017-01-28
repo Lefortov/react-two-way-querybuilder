@@ -14,6 +14,18 @@ const defaultFields = [
   { name: 'birthDate', operators: 'all', label: 'Birth date', input: { type: 'text' } },
 ];
 
+const validationFields = [
+  { name: 'firstName', operators: 'all', label: 'First Name', input: 
+  { type: 'text', errorText: 'Only letters allowed', pattern: new RegExp("[a-z]+", "gi") } },
+  { name: 'lastName', operators: 'all', label: 'Last Name', input: {
+     type: 'text', errorText: 'Only letters allowed', pattern: new RegExp("[a-z]+", "gi") } },
+  { name: 'age', operators: 'all', label: 'Age', input: {
+     type: 'text', errorText: 'Only nubmers allowed', pattern: new RegExp('[0-9]+', 'gi') } },
+  { name: 'birthDate', operators: 'all', label: 'Birth date', input: { 
+    type: 'text', errorText: 'Only nubmers allowed', pattern: new RegExp('[0-9]+', 'gi') }
+   },
+];
+
 const changedFields = [
   { name: 'firstName', operators: 'all', label: 'First Name', input: { type: 'text' } },
   { name: 'lastName', operators: 'all', label: 'Last Name', input: {
@@ -58,4 +70,7 @@ storiesOf('Query builder', module)
   ))
   .add('custom styles', () => (
     <TwoWayQuerybuilder config={changedStyles} fields={defaultFields} onChange={action('data changed')} />
+  ))
+  .add('validation', () => (
+    <TwoWayQuerybuilder fields={validationFields} onChange={action('data changed')} />
   ));

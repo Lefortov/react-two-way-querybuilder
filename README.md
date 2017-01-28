@@ -43,18 +43,20 @@ Simple usage:
     export default App;
 ```
 
-Props:
+###Props:
 
-- **fields**: your fields used to build a query
+- **`fields`**: your fields used to build a query
   * name: name of the field that would be used in a query
   * label: how your field name would be shown in the dropdown
   * operators: remove this property or set to 'all' if you want to use all operators for this field, else you can limit them by passing the array of the allowed operators `['=', '<', '>']`
   * input: type of the input, possible options are: `text`, `textarea`, `select`. If you are using `select` input type pass options to the object in the following way:
-    `input: {type: 'select', options: [{value: '1', name: 'one'}, {value: '2', name: 'two'}]}`
-- **onChange**: pass here your function that will be called when data was changed
-- **config**: configuration object with possible options:
-  * query: pass here prepared query, so UI will be built using it.
-  * operators: array of operators, the default one is: 
+    `input: {type: 'select', options: [{value: '1', name: 'one'}, {value: '2', name: 'two'}]}`. Also, this property supports validation by passing `pattern` property with regexp pattern
+    `errorText` property for validation error message text. 
+  
+- **`onChange`**: pass here your function that will be called when data was changed
+- **`config`**: configuration object with possible options:
+  * `query`: pass here prepared query, so UI will be built using it.
+  * `operators`: array of operators, the default one is: 
       ```
       [
         { operator: '=', label: '=' },
@@ -69,7 +71,7 @@ Props:
         { operator: 'NOT IN', label: 'Not In' },
        ]
     ```
-  * combinators: array of combinators, the default one is: 
+  * `combinators`: array of combinators, the default one is: 
     ```
     [
         { combinator: 'AND', label: 'And' },
@@ -77,7 +79,7 @@ Props:
         { combinator: 'NOT', label: 'Not' },
     ]
     ```
-  * style: use this object to redefine styles. Properties:
+  * `style`: use this object to redefine styles. Properties:
     * `primaryBtn`: used for primary button styles,
     * `deleteBtn`: delete button styles,
     * `rule`: rule styles,
@@ -85,7 +87,9 @@ Props:
     * `select`: select styles,
     * `input`: input styles,
     * `txtArea`: text area styles :D
-- **buttonsText**: text of the buttons, you can redefine it for multilanguage support or because you just want. By default used following text:
+    * `error`: error message styling
+
+- **`buttonsText`**: text of the buttons, you can redefine it for multilanguage support or because you just want. By default used following text:
     * addRule: `'Add rule'`,
     * addGroup: `'Add group'`,
     * clear: `'Clear'`,
@@ -200,6 +204,38 @@ Visit [DEMO](https://lefortov.github.io/react-two-way-querybuilder) storybook to
         render() {
             return (
                  <TwoWayQuerybuilder config={changedStyles} fields={fields} onChange={this.handleChange} />
+            );
+        }
+    }
+
+    export default App;
+  ```
+- **validation**
+  ```
+    import React, { Component } from 'react';
+    import TwoWayQuerybuilder from 'react-two-way-querybuilder';;
+
+    const validationFields = [
+      { name: 'firstName', operators: 'all', label: 'First Name', input: { 
+        type: 'text', errorText: 'Only letters allowed', pattern: new RegExp("[a-z]+", "gi") } },
+      { name: 'lastName', operators: 'all', label: 'Last Name', input: {
+        type: 'text', errorText: 'Only letters allowed', pattern: new RegExp("[a-z]+", "gi") } },
+      { name: 'age', operators: 'all', label: 'Age', input: {
+        type: 'text', errorText: 'Only nubmers allowed', pattern: new RegExp('[0-9]+', 'gi') } },
+      { name: 'birthDate', operators: 'all', label: 'Birth date', input: { 
+        type: 'text', errorText: 'Only nubmers allowed', pattern: new RegExp('[0-9]+', 'gi') }
+      },
+];
+
+    class App extends Component {
+
+        handleChange(event) {
+          console.log('query', event.query);
+        }
+
+        render() {
+            return (
+                 <TwoWayQuerybuilder fields={validationFields} onChange={this.handleChange} />
             );
         }
     }

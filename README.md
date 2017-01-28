@@ -50,7 +50,7 @@ Simple usage:
   * label: how your field name would be shown in the dropdown
   * operators: remove this property or set to 'all' if you want to use all operators for this field, else you can limit them by passing the array of the allowed operators `['=', '<', '>']`
   * input: type of the input, possible options are: `text`, `textarea`, `select`. If you are using `select` input type pass options to the object in the following way:
-    `input: {type: 'select', options: [{value: '1', name: 'one'}, {value: '2', name: 'two'}]}`. Also, this property supports validation by passing `pattern` property with regexp pattern
+    `input: {type: 'select', options: [{value: '1', name: 'one'}, {value: '2', name: 'two'}]}`. Also, it supports validation by passing `pattern` property with regexp pattern and
     `errorText` property for validation error message text. 
   
 - **`onChange`**: pass here your function that will be called when data was changed
@@ -71,14 +71,6 @@ Simple usage:
         { operator: 'NOT IN', label: 'Not In' },
        ]
     ```
-  * `combinators`: array of combinators, the default one is: 
-    ```
-    [
-        { combinator: 'AND', label: 'And' },
-        { combinator: 'OR', label: 'Or' },
-        { combinator: 'NOT', label: 'Not' },
-    ]
-    ```
   * `style`: use this object to redefine styles. Properties:
     * `primaryBtn`: used for primary button styles,
     * `deleteBtn`: delete button styles,
@@ -88,7 +80,14 @@ Simple usage:
     * `input`: input styles,
     * `txtArea`: text area styles :D
     * `error`: error message styling
-
+  * `combinators`: array of combinators, the default one is: 
+    ```
+    [
+        { combinator: 'AND', label: 'And' },
+        { combinator: 'OR', label: 'Or' },
+        { combinator: 'NOT', label: 'Not' },
+    ]
+    ```
 - **`buttonsText`**: text of the buttons, you can redefine it for multilanguage support or because you just want. By default used following text:
     * addRule: `'Add rule'`,
     * addGroup: `'Add group'`,

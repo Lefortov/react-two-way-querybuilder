@@ -71,6 +71,14 @@ Simple usage:
         { operator: 'NOT IN', label: 'Not In' },
        ]
     ```
+   * `combinators`: array of combinators, the default one is: 
+    ```
+    [
+        { combinator: 'AND', label: 'And' },
+        { combinator: 'OR', label: 'Or' },
+        { combinator: 'NOT', label: 'Not' },
+    ]
+    ```  
   * `style`: use this object to redefine styles. Properties:
     * `primaryBtn`: used for primary button styles,
     * `deleteBtn`: delete button styles,
@@ -80,14 +88,7 @@ Simple usage:
     * `input`: input styles,
     * `txtArea`: text area styles :D
     * `error`: error message styling
-  * `combinators`: array of combinators, the default one is: 
-    ```
-    [
-        { combinator: 'AND', label: 'And' },
-        { combinator: 'OR', label: 'Or' },
-        { combinator: 'NOT', label: 'Not' },
-    ]
-    ```
+    
 - **`buttonsText`**: text of the buttons, you can redefine it for multilanguage support or because you just want. By default used following text:
     * addRule: `'Add rule'`,
     * addGroup: `'Add group'`,

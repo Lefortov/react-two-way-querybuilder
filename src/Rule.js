@@ -49,15 +49,14 @@ class Rule extends React.Component {
   }
 
   onInputChanged(event) {
-    console.log('curr field', this.state.currField);
-    if (this.state.currField.input.pattern) {
-      this.setState({ validationError: isValueCorrect(this.state.currField.input.pattern, event.target.value.toString()) });
+    const pattern = this.state.currField.input.pattern;
+    if (pattern) {
+      this.setState({ validationError: isValueCorrect(pattern, event.target.value) });
     }
     this.node.value = event.target.value;
     const field = this.getFieldByName(this.node.field);
     const rule = this.generateRuleObject(field, this.node);
     this.setState({ currField: rule });
-    console.log('state', this.state);
     this.props.onChange();
   }
 
@@ -75,9 +74,11 @@ class Rule extends React.Component {
             className="input" onChange={this.onInputChanged}
             value={this.node.value ? this.node.value : ''}
           />
-          {this.state.validationError
+          {
+            this.state.validationError
             ? <p className={this.styles.error}>{errorText || defaultErrorMsg}</p>
-            : null}
+            : null
+          }
         </div>);
       case 'select': return (
         <select className={this.styles.select} onChange={this.onInputChanged}>
@@ -91,9 +92,11 @@ class Rule extends React.Component {
             value={this.node.value}
             onChange={this.onInputChanged} className={this.styles.input}
           />
-          {this.state.validationError
+          {
+            this.state.validationError
             ? <p className={this.styles.error}>{errorText || defaultErrorMsg}</p>
-            : null}
+            : null
+          }
         </div>);
     }
   }
@@ -127,18 +130,29 @@ class Rule extends React.Component {
   render() {
     return (
       <div className={this.styles.rule}>
-        <select value={this.node.field} className={this.styles.select} onChange={this.onFieldChanged}>
+        <select
+          value={this.node.field}
+          className={this.styles.select}
+          onChange={this.onFieldChanged}
+        >
           {this.props.fields.map((field, index) =>
             <option value={field.name} key={index}>{field.label}</option>
           )}
         </select>
-        <select value={this.node.operator} className={this.styles.select} onChange={this.onOperatorChanged}>
+        <select
+          value={this.node.operator}
+          className={this.styles.select}
+          onChange={this.onOperatorChanged}
+        >
           {this.state.currField.operators.map((operator, index) =>
             <option value={operator.operator} key={index}>{operator.label}</option>
           )}
         </select>
         {this.getInputTag(this.state.currField.input.type)}
-        <button className={this.styles.deleteBtn} onClick={this.handleDelete}>{this.props.buttonsText.delete}</button>
+        <button
+          className={this.styles.deleteBtn}
+          onClick={this.handleDelete}
+        >{this.props.buttonsText.delete}</button>
       </div>
     );
   }

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import TreeHelper from './helpers/TreeHelper';
 
@@ -159,13 +160,13 @@ class Rule extends React.Component {
 }
 
 Rule.propTypes = {
-  buttonsText: React.PropTypes.object,
-  data: React.PropTypes.object.isRequired,
-  fields: React.PropTypes.array.isRequired,
-  nodeName: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func,
-  operators: React.PropTypes.array.isRequired,
-  styles: React.PropTypes.object.isRequired,
+  buttonsText: PropTypes.object,
+  data: PropTypes.object.isRequired,
+  fields: PropTypes.array.isRequired,
+  nodeName: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  operators: PropTypes.array.isRequired,
+  styles: PropTypes.object.isRequired,
 };
 
 export default Rule;

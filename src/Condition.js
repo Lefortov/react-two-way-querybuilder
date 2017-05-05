@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import TreeHelper from './helpers/TreeHelper';
 import Rule from './Rule';
@@ -112,12 +113,12 @@ class Condition extends React.Component {
 }
 
 Condition.propTypes = {
-  buttonsText: React.PropTypes.object.isRequired,
-  config: React.PropTypes.object.isRequired,
-  data: React.PropTypes.object.isRequired,
-  fields: React.PropTypes.array.isRequired,
-  nodeName: React.PropTypes.string.isRequired,
-  onChange: React.PropTypes.func,
+  buttonsText: PropTypes.object.isRequired,
+  config: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired,
+  fields: PropTypes.array.isRequired,
+  nodeName: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
 };
 
 export default Condition;

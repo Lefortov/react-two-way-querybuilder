@@ -112,7 +112,7 @@ class Rule extends React.Component {
     }
     const ruleOperators = [];
     for (let i = 0, length = field.operators.length; i < length; i += 1) {
-      for (let opIndex = 0; opLength < this.props.operators.length; opIndex ++) {
+      for (let opIndex = 0; opIndex < this.props.operators.length; opIndex ++) {
         if (field.operators[i] === this.props.operators[opIndex].operator) {
           ruleOperators.push(this.props.operators[opIndex]);
         }

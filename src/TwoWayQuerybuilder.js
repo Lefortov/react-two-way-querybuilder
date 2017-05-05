@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import Condition from './Condition';
 import QueryParser from './helpers/QueryParser';
@@ -90,10 +91,10 @@ class TwoWayQuerybuilder extends React.Component {
 }
 
 TwoWayQuerybuilder.propTypes = {
-  buttonsText: React.PropTypes.object,
-  config: React.PropTypes.object,
-  fields: React.PropTypes.array.isRequired,
-  onChange: React.PropTypes.func,
+  buttonsText: PropTypes.object,
+  config: PropTypes.object,
+  fields: PropTypes.array.isRequired,
+  onChange: PropTypes.func,
 };
 
 TwoWayQuerybuilder.defaultProps = {

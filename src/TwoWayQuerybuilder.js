@@ -15,10 +15,10 @@ function buildDefaultConfig(config) {
     { operator: '>', label: '>' },
     { operator: '>=', label: '>=' },
     { operator: '<=', label: '<=' },
-    { operator: 'IS NULL', label: 'Null' },
-    { operator: 'IS NOT NULL', label: 'Not Null' },
-    { operator: 'IN', label: 'In' },
-    { operator: 'NOT IN', label: 'Not In' },
+    { operator: 'is null', label: 'Null' },
+    { operator: 'is not null', label: 'Not Null' },
+    { operator: 'in', label: 'In' },
+    { operator: 'not in', label: 'Not In' },
   ];
   defConfig.combinators = defConfig.combinators ? defConfig.combinators :
   [

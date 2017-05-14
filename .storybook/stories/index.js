@@ -4,7 +4,7 @@ import TwoWayQuerybuilder from '../../src/TwoWayQuerybuilder';
 import './index.css';
 
 const config = {
-  query: "((firstname='Jack' AND lastName='London') OR lastName='Smith')",
+  query: "((firstname >= 'Jack' AND lastName<'London') OR lastName<>'Smith')",
 };
 
 const defaultFields = [

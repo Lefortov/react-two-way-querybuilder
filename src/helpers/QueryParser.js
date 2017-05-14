@@ -88,13 +88,27 @@ export default class QueryParser {
 
   static createTokenObject(token, operators) {
     const operatorsPattern = this.getSearchPattern(operators, 'operator');
-    const match = operatorsPattern.exec(token);
-    const operatorEndIndex = match.index + match.length;
+    const matches = this.matchAll(token, operatorsPattern);
+    const mathesLength = matches.map(el => el.value).join('').length;
+    const operatorEndIndex = matches[0].index + mathesLength;
     return {
-      field: token.substring(0, match.index),
-      operator: token.substring(match.index, match.index + match.length),
+      field: token.substring(0, matches[0].index),
+      operator: token.substring(matches[0].index, operatorEndIndex),
       value: token.substring(operatorEndIndex, token.length).replace(/[']+/g, ''),
     };
+  }
+
+  static matchAll(str, regex) {
+    const res = [];
+    let m;
+    if (regex.global) {
+      while (m = regex.exec(str)) {
+        res.push({ value: m[0], index: m.index });
+      }
+    } else if (m = regex.exec(str)) {
+      res.push({ value: m[0], index: m.index });
+    }
+    return res;
   }
 
   static getCombinatorsIndexes(query, combinators) {
@@ -114,7 +128,7 @@ export default class QueryParser {
     }
     // To remove first | character
     pattern = pattern.slice(1);
-    return new RegExp(pattern, 'gi');
+    return new RegExp(pattern, 'g');
   }
 
   static getFirstCombinator(element, combinators) {

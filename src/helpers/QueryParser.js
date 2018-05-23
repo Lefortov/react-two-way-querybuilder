@@ -42,7 +42,7 @@ export default class QueryParser {
     } else if (element.value === '()' && element.parent) {
       currElement.rules.push(newCombinator);
       newCombName = nodeName;
-    } else if (element.value.field) {
+    } else if (element.value && element.value.field) {
       const newRule = {
         field: element.value.field,
         operator: element.value.operator,

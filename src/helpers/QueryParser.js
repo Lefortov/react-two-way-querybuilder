@@ -94,7 +94,7 @@ export default class QueryParser {
     return {
       field: token.substring(0, matches[0].index).trim(),
       operator: token.substring(matches[0].index, operatorEndIndex),
-      value: token.substring(operatorEndIndex, token.length).replace(/[']+/g, ''),
+      value: token.substring(operatorEndIndex, token.length).replace(/[']+/g, '').trim(),
     };
   }
 

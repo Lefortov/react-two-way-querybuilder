@@ -92,7 +92,7 @@ export default class QueryParser {
     const mathesLength = matches.map(el => el.value).join('').length;
     const operatorEndIndex = matches[0].index + mathesLength;
     return {
-      field: token.substring(0, matches[0].index),
+      field: token.substring(0, matches[0].index).trim(),
       operator: token.substring(matches[0].index, operatorEndIndex),
       value: token.substring(operatorEndIndex, token.length).replace(/[']+/g, ''),
     };

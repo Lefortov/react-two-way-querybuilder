@@ -41,9 +41,17 @@ describe('Query Parser', function () {
       const result = QueryParser.createTokenObject(token, operators);
       assert.equal(result.field, 'Firstname');
       assert.equal(result.operator, '=');
-      assert.equal(result.value, "'kek'");
+      assert.equal(result.value, "kek");
+    });
+    it('should return token object without extra space', function () {
+      const token = "Firstname IN 'kek, john'";
+      const result = QueryParser.createTokenObject(token, operators);
+      assert.equal(result.field, 'Firstname');
+      assert.equal(result.operator, 'IN');
+      assert.equal(result.value, "kek, john");
     });
   });
+
 
   describe('Get tokens array', function () {
     it('should return token array', function () {
@@ -52,12 +60,12 @@ describe('Query Parser', function () {
       const expectedResult = [
         '(',
         '(',
-        { field: 'Firstname', operator: '=', value: "'kek'" },
+        { field: 'Firstname', operator: '=', value: "kek" },
         'AND',
-        { field: 'Firstname', operator: '=', value: "'kek1'" },
+        { field: 'Firstname', operator: '=', value: "kek1" },
         ')',
         'OR',
-        { field: 'Firstname', operator: '=', value: "'kek3'" },
+        { field: 'Firstname', operator: '=', value: "kek3" },
         ')',
       ];
       assert.deepEqual(result, expectedResult);
@@ -71,7 +79,7 @@ describe('Query Parser', function () {
       const tree = ASTree.buildTree(tokens, combinators);
       const expectedResult = 'AND';
       const result = QueryParser.getFirstCombinator(tree, combinators);
-      assert.equal(result, expectedResult);
+      assert.equal(result.value, expectedResult);
     });
   });
 });

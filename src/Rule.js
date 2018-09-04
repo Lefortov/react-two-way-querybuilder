@@ -151,6 +151,7 @@ class Rule extends React.Component {
         </select>
         {this.getInputTag(this.state.currField.input.type)}
         <button
+          type="button"
           className={this.styles.deleteBtn}
           onClick={this.handleDelete}
         >{this.props.buttonsText.delete}</button>

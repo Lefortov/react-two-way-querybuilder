@@ -70,14 +70,15 @@ class Condition extends React.Component {
               return <option value={combinator.combinator} key={index}>{combinator.label}</option>;
             })}
         </select>
-        <button className={this.styles.primaryBtn} onClick={this.addCondition}>
+        <button type="button" className={this.styles.primaryBtn} onClick={this.addCondition}>
           {this.props.buttonsText.addGroup}
         </button>
-        <button className={this.styles.primaryBtn} onClick={this.addRule}>
+        <button type="button" className={this.styles.primaryBtn} onClick={this.addRule}>
           {this.props.buttonsText.addRule}
         </button>
         {this.props.nodeName !== '1'
           ? <button
+            type="button"
             onClick={() => this.handleDelete(this.props.nodeName)}
             className={this.styles.deleteBtn}>{this.props.buttonsText.delete}</button>
           : null}
